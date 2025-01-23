@@ -1,8 +1,9 @@
 My groupmembers are:
 - Alexia Jennings
-- XXXX
-- XXXX
-- XXXX
+- Arushi Chaturvedi
+- Jenan Qasem
+- Sanskriti Gyawali
+- Diwashna Poudel
 
 
 ------------------ Fill in some information about your project under this ------------------
