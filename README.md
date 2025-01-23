@@ -1,7 +1,7 @@
 My groupmembers are:
 - Alexia Jennings
 - Arushi Chaturvedi
-- XXXX
+- Jenan Qasem
 - XXXX
 
 
