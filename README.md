@@ -1,6 +1,6 @@
 My groupmembers are:
 - Alexia Jennings
-- XXXX
+- Arushi Chaturvedi
 - XXXX
 - XXXX
 
