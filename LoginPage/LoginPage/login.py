@@ -49,6 +49,7 @@ def register():
             flash("Registration successful! Please login.", "success")
             return redirect(url_for("home"))
     return render_template("register.html")
+#Create Name First and Last when registering.
 
 @app.route('/login', methods=["POST"])
 def login():
