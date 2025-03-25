@@ -21,6 +21,9 @@ def is_valid_email(email):
     email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
     return re.match(email_regex, email)
 
+def is_valid_password(password):
+    return len(password) >= 7 and re.search(r'[!@#$%&()?:;]', password)
+
 @app.route('/')
 def home():
     return render_template("login.html")
@@ -38,6 +41,8 @@ def register():
             flash("Invalid email format!", "danger")
         elif email in users:
             flash("Email already registered!", "danger")
+        elif not is_valid_password(password):
+            flash("Invalid password must be atleast 7 characters and contain 1 special character !@#$%&()?;;", "danger")
         else:
             users[email] = password
             save_users(users)
