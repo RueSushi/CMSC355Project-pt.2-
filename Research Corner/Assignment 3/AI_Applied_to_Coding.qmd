@@ -1,0 +1,43 @@
+---
+title: "AI Applied to Coding"
+authors: 
+  - name: "Alexia Jennings, Jenan Qasem, Sanskriti Gyawali, Diwashna Poudel, Arushi Chaturvedi"
+
+date: 2025-03-30
+date-format: "MMMM D, YYYY"
+
+header-includes: |
+  \usepackage{titling}
+  \pretitle{\begin{center}\Large\bfseries}
+  \posttitle{\par\end{center}}
+  \preauthor{\begin{center}\large}
+  \postauthor{\par\end{center}}
+  \predate{\begin{center}\large}
+  \postdate{\par\end{center}}
+  \newpage
+
+format: pdf
+mainfont: "Times New Roman"
+fontsize: 12pt
+geometry: margin=1in
+---
+
+\newpage
+\tableofcontents
+\newpage
+
+<!-- Content of Paper -->
+# Introduction 
+
+<!-- Rest of Paper goes here -->
+
+\newpage
+
+<!-- Citations -->
+# Works Cited
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+\setlength{\parskip}{12pt}
+\noindent
+
+<!-- Rest of Citations goes here -->
