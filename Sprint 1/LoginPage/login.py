@@ -75,5 +75,22 @@ def logout():
     session.pop("user", None)
     return redirect(url_for("home"))
 
+@app.route('/medications', methods=["GET", "POST"])
+def medications():
+    if "user" not in session:
+        return redirect(url_for("home"))
+
+    if request.method == "POST":
+        medication_name = request.form["medication"]
+        frequency = request.form["frequency"]
+        start_date = request.form["start_date"]
+
+        # For now, just flash a confirmation message
+        flash(f"Medication '{medication_name}' added with {frequency} frequency starting on {start_date}.", "success")
+
+    return render_template("medications.html", user=session["user"])
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
