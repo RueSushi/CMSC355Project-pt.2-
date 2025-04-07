@@ -31,12 +31,16 @@ def home():
 @app.route('/register', methods=["GET", "POST"])
 def register():
     if request.method == "POST":
+        first_name = request.form["first_name"]
+        last_name = request.form["last_name"]
         email = request.form["email"]
         password = request.form["password"]
         users = load_users()
 
+        if not all([first_name, last_name, email, password]):
+            flash("All fields are required!", "danger")
         if not email or not password:
-            flash("Both fields are required!", "danger")
+            flash("Email and password are required!", "danger")
         elif not is_valid_email(email):
             flash("Invalid email format!", "danger")
         elif email in users:
@@ -44,7 +48,7 @@ def register():
         elif not is_valid_password(password):
             flash("Invalid password must be atleast 7 characters and contain 1 special character !@#$%&()?;;", "danger")
         else:
-            users[email] = password
+            users[email] = {"first_name": first_name, "last_name": last_name, "password": password}
             save_users(users)
             flash("Registration successful! Please login.", "success")
             return redirect(url_for("home"))
@@ -57,7 +61,7 @@ def login():
     password = request.form["password"]
     users = load_users()
 
-    if email in users and users[email] == password:
+    if email in users and users[email]["password"] == password:
         session["user"] = email
         return redirect(url_for("dashboard"))
     else:
@@ -68,7 +72,8 @@ def login():
 def dashboard():
     if "user" not in session:
         return redirect(url_for("home"))
-    return render_template("dashboard.html", user=session["user"])
+    users = load_users()
+    return render_template("dashboard.html", user=users.get(session["user"]))
 
 @app.route('/logout')
 def logout():
