@@ -34,3 +34,13 @@ a {
 }
 .success { color: green; }
 .danger { color: red; }
+.form-scroll-wrapper {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 1rem;
+}
+.form-field {
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+}

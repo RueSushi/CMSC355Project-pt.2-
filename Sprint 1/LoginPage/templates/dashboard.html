@@ -62,6 +62,7 @@
     <div class="container">
         <h2>Welcome, {{ user.first_name }} {{ user.last_name }}!</h2>
         <a href="{{ url_for('medications') }}" class="button">Add and Track Medications</a>
+        <a href="{{ url_for('profile') }}" class="button">Update Profile Info</a>
         <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
     </div>
 </body>

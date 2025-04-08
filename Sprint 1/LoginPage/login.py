@@ -75,6 +75,55 @@ def dashboard():
     users = load_users()
     return render_template("dashboard.html", user=users.get(session["user"]))
 
+@app.route('/profile', methods=["GET", "POST"])
+def profile():
+    if "user" not in session:
+        return redirect(url_for("home"))
+    
+    users = load_users()
+    current_email = session["user"]
+    user_data = users.get(current_email)
+
+    if request.method == "POST":
+        first_name = request.form["first_name"]
+        last_name = request.form["last_name"]
+        password = request.form["password"]
+        pre_exist = request.form["pre_exist"]
+        phone = request.form["phone"]
+        address = request.form["address"]
+        dob = request.form["dob"]
+        zip_code = request.form["zip_code"]
+        city = request.form["city"]
+        email = request.form["email"]
+
+        user_data["email"] = email
+        user_data["first_name"] = first_name
+        user_data["last_name"] = last_name
+        user_data["password"] = password
+        user_data["pre_exist"] = pre_exist
+        user_data["phone"] = phone
+        user_data["address"] = address
+        user_data["dob"] = dob
+        user_data["zip_code"] = zip_code
+        user_data["city"] = city
+        users[session["user"]] = user_data
+
+        if email != current_email:
+            if email in users:
+                flash("That email is already in use!", "danger")
+                return redirect(url_for("profile"))
+            users[email] = user_data
+            del users[current_email]
+            session["user"] = email  
+        else:
+            users[current_email] = user_data
+
+        save_users(users)
+        flash("Profile updated successfully!", "success")
+        return redirect(url_for("profile"))
+
+    return render_template("profile.html", user=user_data, email=session["user"])
+
 @app.route('/logout')
 def logout():
     session.pop("user", None)

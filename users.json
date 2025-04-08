@@ -2,6 +2,13 @@
     "johndoe@gmail.com": {
         "first_name": "John",
         "last_name": "Doe",
-        "password": "thisisatest!"
+        "password": "thisisatest!",
+        "pre_exist": "Diabetes, High Blood Pressure",
+        "phone": "(678)999-8212",
+        "address": "123 Sesame Street",
+        "dob": "1999-12-31",
+        "zip_code": "10123",
+        "city": "New York",
+        "email": "johndoe@gmail.com"
     }
 }
