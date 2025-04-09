@@ -8,20 +8,24 @@ app.secret_key = "your_secret_key"
 USER_DB_FILE = "users.json"
 
 def load_users():
+    """Load the user data from the JSON file."""
     if os.path.exists(USER_DB_FILE):
         with open(USER_DB_FILE, "r") as file:
             return json.load(file)
     return {}
 
 def save_users(users):
+    """Save the updated user data to the JSON file."""
     with open(USER_DB_FILE, "w") as file:
         json.dump(users, file, indent=4)
 
 def is_valid_email(email):
+    """Check if the email format is valid."""
     email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
     return re.match(email_regex, email)
 
 def is_valid_password(password):
+    """Check if the password meets the criteria (at least 7 characters and 1 special character)."""
     return len(password) >= 7 and re.search(r'[!@#$%&()?:;]', password)
 
 @app.route('/')
@@ -30,6 +34,7 @@ def home():
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
+    """User registration route."""
     if request.method == "POST":
         first_name = request.form["first_name"]
         last_name = request.form["last_name"]
@@ -46,17 +51,17 @@ def register():
         elif email in users:
             flash("Email already registered!", "danger")
         elif not is_valid_password(password):
-            flash("Invalid password must be atleast 7 characters and contain 1 special character !@#$%&()?;;", "danger")
+            flash("Password must be at least 7 characters and contain 1 special character (!@#$%&()?;).", "danger")
         else:
-            users[email] = {"first_name": first_name, "last_name": last_name, "password": password}
+            users[email] = {"first_name": first_name, "last_name": last_name, "password": password, "medications": []}
             save_users(users)
             flash("Registration successful! Please login.", "success")
             return redirect(url_for("home"))
     return render_template("register.html")
-#Create Name First and Last when registering.
 
 @app.route('/login', methods=["POST"])
 def login():
+    """User login route."""
     email = request.form["email"]
     password = request.form["password"]
     users = load_users()
@@ -70,13 +75,18 @@ def login():
 
 @app.route('/dashboard')
 def dashboard():
+    """User dashboard route to show their information and medications."""
     if "user" not in session:
         return redirect(url_for("home"))
     users = load_users()
-    return render_template("dashboard.html", user=users.get(session["user"]))
+    user_data = users.get(session["user"])
+
+    # Render dashboard with medications list
+    return render_template("dashboard.html", user=user_data)
 
 @app.route('/profile', methods=["GET", "POST"])
 def profile():
+    """User profile route for viewing and editing profile information."""
     if "user" not in session:
         return redirect(url_for("home"))
     
@@ -126,25 +136,36 @@ def profile():
 
 @app.route('/logout')
 def logout():
+    """Log out the user by removing session data."""
     session.pop("user", None)
     return redirect(url_for("home"))
 
 @app.route('/medications', methods=["GET", "POST"])
 def medications():
+    """Add and view medications."""
     if "user" not in session:
         return redirect(url_for("home"))
+
+    users = load_users()
+    current_user = users.get(session["user"])
 
     if request.method == "POST":
         medication_name = request.form["medication"]
         frequency = request.form["frequency"]
         start_date = request.form["start_date"]
 
-        # For now, just flash a confirmation message
+        # Add medication to the user's medication list
+        new_medication = {
+            "medication": medication_name,
+            "frequency": frequency,
+            "start_date": start_date
+        }
+        current_user["medications"].append(new_medication)
+        save_users(users)
+
         flash(f"Medication '{medication_name}' added with {frequency} frequency starting on {start_date}.", "success")
 
-    return render_template("medications.html", user=session["user"])
-
-
+    return render_template("medications.html", user=current_user, medications=current_user["medications"])
 
 if __name__ == "__main__":
     app.run(debug=True)
