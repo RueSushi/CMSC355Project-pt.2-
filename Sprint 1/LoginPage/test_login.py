@@ -1,5 +1,5 @@
 import unittest
-from login import app, save_users, load_users
+from login import app, save_users, load_users  # Fixed import statement
 from flask import Flask
 from flask.testing import FlaskClient
 
@@ -27,15 +27,14 @@ class FlaskPositiveTestCase(unittest.TestCase):
         self.app = app.test_client()
         self.app.testing = True
 
-def test_register_success(self):
-    """Test successful user registration."""
-    response = self.app.post('/register', data={
-        'email': 'newuser@example.com',
-        'password': 'ValidPass1!'
-    })
-    self.assertEqual(response.status_code, 302)  # Expect redirection after successful registration
-    self.assertIn('/login', response.headers['Location'])  # Check that it redirects to login
-
+    def test_register_success(self):
+        """Test successful user registration."""
+        response = self.app.post('/register', data={
+            'email': 'newuser@example.com',
+            'password': 'ValidPass1!'
+        })
+        self.assertEqual(response.status_code, 302)  # Expect redirection after successful registration
+        self.assertIn('/login', response.headers['Location'])  # Check that it redirects to login
 
     def test_login_success(self):
         """Test successful login."""
@@ -92,7 +91,6 @@ class FlaskNegativeTestCase(unittest.TestCase):
         })
         self.assertEqual(response.status_code, 200)  # Expect no redirection
         self.assertIn(b"Invalid email format!", response.data)
-
 
     def test_register_existing_email(self):
         """Test registering with an already existing email."""
