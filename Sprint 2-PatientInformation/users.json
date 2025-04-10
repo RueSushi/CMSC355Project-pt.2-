@@ -1,0 +1,24 @@
+{
+    "chaturvedia2@vcu.edu": {
+        "first_name": "Arushi",
+        "last_name": "Chaurvedi",
+        "password": "lol@1234thisisatest"
+    },
+    "jj@gmail.com": {
+        "first_name": "jj",
+        "last_name": "q",
+        "password": "testing123@",
+        "medications": [
+            {
+                "medication": "blah blah",
+                "frequency": "once_a_day",
+                "start_date": "2025-04-09"
+            },
+            {
+                "medication": "Tynelol",
+                "frequency": "once_a_day",
+                "start_date": "2025-04-08"
+            }
+        ]
+    }
+}
