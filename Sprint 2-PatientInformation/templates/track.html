@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Medications</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 80px auto;
+            padding: 40px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        ul {
+            text-align: left;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 12px;
+        }
+
+        .button {
+            padding: 12px 24px;
+            font-size: 16px;
+            margin: 10px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .button:hover {
+            background-color: #0069d9;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .danger {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Your Medications</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <p class="{{ category }}">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <ul>
+            {% for med in medications %}
+                <li>
+                    <strong>{{ med.medication }}</strong><br>
+                    Frequency: {{ med.frequency }}<br>
+                    Start Date: {{ med.start_date }}<br>
+                    Next Dose: <strong>{{ med.next_dose if med.next_dose is defined else "Not calculated" }}</strong>
+                </li>
+            {% else %}
+                <li>No medications added yet.</li>
+            {% endfor %}
+        </ul>
+
+        <a href="{{ url_for('add_medication') }}" class="button">Add Medication</a>
+        <a href="{{ url_for('dashboard') }}" class="button">Back to Dashboard</a>
+    </div>
+</body>
+</html>

@@ -6,48 +6,63 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f7fa;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 500px;
-            margin: 80px auto;
-            padding: 40px;
+        .dashboard-wrapper {
+            max-width: 900px;
+            width: 100%;
             background-color: white;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 40px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+        }
+
+        .dashboard-header {
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .card-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 5px;
+        }
+
+        .dashboard-card {
+            background-color: #e6f4ea;
+            padding: 25px 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             text-align: center;
+            width: 200px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        h2 {
-            margin-bottom: 20px;
+        .dashboard-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.12);
         }
 
-        .button {
-            display: inline-block;
-            padding: 14px 28px;
-            font-size: 16px;
-            margin: 10px 0;
-            color: #fff;
-            background-color: #4CAF50;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
+        .dashboard-card a {
+            display: block;
             text-decoration: none;
+            background-color: #28a745;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-weight: bold;
             transition: background-color 0.3s ease;
         }
 
-        .button:hover {
-            background-color: #45a049;
+        .dashboard-card a:hover {
+            background-color: #218838;
         }
 
         .logout-link {
-            display: block;
             margin-top: 20px;
+            display: inline-block;
             color: #555;
             text-decoration: none;
         }
@@ -55,14 +70,52 @@
         .logout-link:hover {
             text-decoration: underline;
         }
+
+        /* New Generate Report Button Style */
+        .generate-report-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .generate-report-btn:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <h2>Welcome, {{ user.first_name }} {{ user.last_name }}!</h2>
-        <a href="{{ url_for('medications') }}" class="button">Add and Track Medications</a>
-        <a href="{{ url_for('profile') }}" class="button">Update Profile Info</a>
+    <div class="dashboard-wrapper">
+        <h2 class="dashboard-header">Welcome, {{ user.first_name }} {{ user.last_name }}!</h2>
+
+        <div class="card-group">
+            <div class="dashboard-card">
+                <h3>Track Medications</h3>
+                <p>Tracking dosage times and adding Medication.</p>
+                <a href="{{ url_for('track_medications') }}">Go to Tracker</a>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>Update Profile</h3>
+                <p>Keep your personal and health info up to date.</p>
+                <a href="{{ url_for('profile') }}">Edit Profile</a>
+            </div>
+
+            <!-- New "Generate Report" button -->
+            <div class="dashboard-card">
+                <h3>Generate Report</h3>
+                <p>Create a report of your medication history.</p>
+                <a href="#" class="generate-report-btn">Generate Report</a>
+            </div>
+        </div>
+
         <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
     </div>
 </body>

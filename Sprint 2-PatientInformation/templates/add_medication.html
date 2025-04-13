@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medication Tracker</title>
+    <title>Add Medication</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <style>
         body {
@@ -54,6 +54,14 @@
             background-color: #0069d9;
         }
 
+        .success {
+            color: green;
+        }
+
+        .danger {
+            color: red;
+        }
+
         .nav-links {
             margin-top: 20px;
         }
@@ -67,19 +75,11 @@
         .nav-links a:hover {
             text-decoration: underline;
         }
-
-        .success {
-            color: green;
-        }
-
-        .danger {
-            color: red;
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Track a New Medication</h2>
+        <h2>Add a New Medication</h2>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -89,7 +89,7 @@
             {% endif %}
         {% endwith %}
 
-        <form action="{{ url_for('medications') }}" method="post">
+        <form action="{{ url_for('add_medication') }}" method="post">
             <input type="text" name="medication" placeholder="Medication name" required>
 
             <select name="frequency" required>
@@ -103,10 +103,10 @@
                 <option value="weekly">Once a week</option>
                 <option value="custom">Custom interval</option>
             </select>
+
             <div id="custom-interval-container" style="display: none;">
                 <input type="number" name="custom_interval_days" placeholder="Every X days" min="1">
             </div>
-                        
 
             <label for="start_date">Start Date:</label>
             <input type="date" name="start_date" required>
@@ -115,21 +115,22 @@
         </form>
 
         <div class="nav-links">
-            <a href="{{ url_for('dashboard') }}">Back to Dashboard</a> |
-            <a href="{{ url_for('logout') }}">Logout</a>
+            <a href="{{ url_for('track_medications') }}">Back to Medications</a> |
+            <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
         </div>
     </div>
+
+    <script>
+        const frequencySelect = document.querySelector('select[name="frequency"]');
+        const customContainer = document.getElementById('custom-interval-container');
+
+        frequencySelect.addEventListener('change', function () {
+            if (this.value === 'custom') {
+                customContainer.style.display = 'block';
+            } else {
+                customContainer.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
-<script>
-    const frequencySelect = document.querySelector('select[name="frequency"]');
-    const customContainer = document.getElementById('custom-interval-container');
-
-    frequencySelect.addEventListener('change', function () {
-        if (this.value === 'custom') {
-            customContainer.style.display = 'block';
-        } else {
-            customContainer.style.display = 'none';
-        }
-    });
-</script>

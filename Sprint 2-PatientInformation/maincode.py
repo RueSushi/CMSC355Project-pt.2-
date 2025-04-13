@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
+from datetime import datetime, timedelta
 import json
 import os
 import re
@@ -140,9 +141,26 @@ def logout():
     session.pop("user", None)
     return redirect(url_for("home"))
 
-@app.route('/medications', methods=["GET", "POST"])
-def medications():
-    """Add and view medications."""
+
+@app.route('/track')
+def track_medications():
+    if "user" not in session:
+        return redirect(url_for("home"))
+
+    users = load_users()
+    current_user = users.get(session["user"])
+
+    now = datetime.now()
+    for med in current_user["medications"]:
+        nd = datetime.strptime(med["next_dose"], "%Y-%m-%d %H:%M")
+        time_diff = (nd - now).total_seconds()
+        if 0 <= time_diff <= 3600:
+            flash(f" It's almost time to take '{med['medication']}' (Next dose at {med['next_dose']})", "danger")
+
+    return render_template("track.html", user=current_user, medications=current_user["medications"])
+
+@app.route('/add-medication', methods=["GET", "POST"])
+def add_medication():
     if "user" not in session:
         return redirect(url_for("home"))
 
@@ -153,19 +171,45 @@ def medications():
         medication_name = request.form["medication"]
         frequency = request.form["frequency"]
         start_date = request.form["start_date"]
+        now = datetime.now()
 
-        # Add medication to the user's medication list
+        start_datetime = datetime.strptime(start_date, "%Y-%m-%d")
+
+        frequency_map = {
+            "once_a_day": timedelta(days=1),
+            "twice_a_day": timedelta(hours=12),
+            "three_times_a_day": timedelta(hours=8),
+            "every_6_hours": timedelta(hours=6),
+            "every_8_hours": timedelta(hours=8),
+            "every_other_day": timedelta(days=2),
+            "weekly": timedelta(weeks=1),
+        }
+
+        if frequency == "custom":
+            custom_days = int(request.form.get("custom_interval_days", 1))
+            interval = timedelta(days=custom_days)
+        else:
+            interval = frequency_map.get(frequency, timedelta(days=1))
+
+        next_dose = start_datetime
+        while next_dose <= now:
+            next_dose += interval
+
         new_medication = {
             "medication": medication_name,
             "frequency": frequency,
-            "start_date": start_date
+            "start_date": start_date,
+            "next_dose": next_dose.strftime("%Y-%m-%d %H:%M")
         }
+
         current_user["medications"].append(new_medication)
         save_users(users)
 
-        flash(f"Medication '{medication_name}' added with {frequency} frequency starting on {start_date}.", "success")
+        flash(f"Medication '{medication_name}' added. Next dose: {new_medication['next_dose']}", "success")
+        return redirect(url_for("track_medications"))
 
-    return render_template("medications.html", user=current_user, medications=current_user["medications"])
+    return render_template("add_medication.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
