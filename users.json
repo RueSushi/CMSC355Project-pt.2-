@@ -10,5 +10,27 @@
         "zip_code": "10123",
         "city": "New York",
         "email": "johndoe@gmail.com"
+    },
+    "janedoe@gmail.com": {
+        "first_name": "Jane",
+        "last_name": "Doe",
+        "password": "thisisatest2!",
+        "medications": [
+            {
+                "medication": "Vitamin D",
+                "frequency": "once_a_day",
+                "start_date": "2025-04-15"
+            },
+            {
+                "medication": "Allergy Medicine",
+                "frequency": "once_a_day",
+                "start_date": "2025-04-15"
+            },
+            {
+                "medication": "Vitamin C",
+                "frequency": "once_a_day",
+                "start_date": "2025-04-15"
+            }
+        ]
     }
 }

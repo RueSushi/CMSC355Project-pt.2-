@@ -163,7 +163,7 @@ def medications():
         current_user["medications"].append(new_medication)
         save_users(users)
 
-        flash(f"Medication '{medication_name}' added with {frequency} frequency starting on {start_date}.", "success")
+        flash(f"Medication {medication_name} added with {frequency} frequency starting on {start_date}.", "success")
 
     return render_template("medications.html", user=current_user, medications=current_user["medications"])
 
