@@ -32,5 +32,18 @@
                 "start_date": "2025-04-15"
             }
         ]
+    },
+    "testemail@gmail.com": {
+        "first_name": "Alexia",
+        "last_name": "Jennings",
+        "password": "123test!",
+        "medications": [
+            {
+                "medication": "Allergy Medicine",
+                "frequency": "once_a_day",
+                "start_date": "2025-04-15",
+                "next_dose": "2025-04-16 00:00"
+            }
+        ]
     }
 }
