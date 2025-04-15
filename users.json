@@ -1,38 +1,4 @@
 {
-    "johndoe@gmail.com": {
-        "first_name": "John",
-        "last_name": "Doe",
-        "password": "thisisatest!",
-        "pre_exist": "Diabetes, High Blood Pressure",
-        "phone": "(678)999-8212",
-        "address": "123 Sesame Street",
-        "dob": "1999-12-31",
-        "zip_code": "10123",
-        "city": "New York",
-        "email": "johndoe@gmail.com"
-    },
-    "janedoe@gmail.com": {
-        "first_name": "Jane",
-        "last_name": "Doe",
-        "password": "thisisatest2!",
-        "medications": [
-            {
-                "medication": "Vitamin D",
-                "frequency": "once_a_day",
-                "start_date": "2025-04-15"
-            },
-            {
-                "medication": "Allergy Medicine",
-                "frequency": "once_a_day",
-                "start_date": "2025-04-15"
-            },
-            {
-                "medication": "Vitamin C",
-                "frequency": "once_a_day",
-                "start_date": "2025-04-15"
-            }
-        ]
-    },
     "testemail@gmail.com": {
         "first_name": "Alexia",
         "last_name": "Jennings",
