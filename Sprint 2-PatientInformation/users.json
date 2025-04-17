@@ -22,5 +22,31 @@
                 "next_dose": "2025-04-23 00:00"
             }
         ]
+    },
+    "diwashnapoudel2004@gmail.com": {
+        "first_name": "Diwashna",
+        "last_name": "Poudel",
+        "password": "Sumanaacharya@",
+        "medications": [
+            {
+                "medication": "Advil",
+                "frequency": "once_a_day",
+                "start_date": "2025-04-17",
+                "next_dose": "2025-04-18 00:00"
+            }
+        ],
+        "email": "diwashnapoudel2004@gmail.com",
+        "pre_exist": "idk",
+        "phone": "5715677314",
+        "address": "9523 Bastille st",
+        "dob": "2025-04-16",
+        "zip_code": "22031",
+        "city": "Fairfax"
+    },
+    "poudeld@vcu.edu": {
+        "first_name": "diwa",
+        "last_name": "p",
+        "password": "Diwashna123@",
+        "medications": []
     }
 }

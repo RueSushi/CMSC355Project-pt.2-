@@ -1,8 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify, make_response
 from datetime import datetime, timedelta
 import json
 import os
 import re
+from reportlab.lib.pagesizes import LETTER
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib import colors
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
@@ -210,6 +214,141 @@ def add_medication():
 
     return render_template("add_medication.html")
 
+@app.route('/delete-medication', methods=["POST"])
+def delete_medication():
+    if "user" not in session:
+        return redirect(url_for("home"))
+
+    medication_name = request.form.get("medication_name")
+
+    users = load_users()
+    user = users.get(session["user"])
+    medications = user.get("medications", [])
+
+    updated_meds = [m for m in medications if m["medication"] != medication_name]
+    if len(updated_meds) < len(medications):
+        user["medications"] = updated_meds
+        save_users(users)
+        flash(f"Deleted '{medication_name}' successfully.", "success")
+    else:
+        flash("Medication not found.", "danger")
+
+    return redirect(url_for("track_medications"))
+
+@app.route('/edit-medication/<int:index>', methods=["GET", "POST"])
+def edit_medication(index):
+    if "user" not in session:
+        return redirect(url_for("home"))
+
+    users = load_users()
+    user = users.get(session["user"])
+    medications = user.get("medications", [])
+
+    if index < 0 or index >= len(medications):
+        flash("Medication not found.", "danger")
+        return redirect(url_for("track_medications"))
+
+    medication = medications[index]
+
+    if request.method == "POST":
+        frequency = request.form["frequency"]
+        start_date = request.form["start_date"]
+
+        # Recalculate next dose
+        frequency_map = {
+            "once_a_day": timedelta(days=1),
+            "twice_a_day": timedelta(hours=12),
+            "three_times_a_day": timedelta(hours=8),
+            "every_6_hours": timedelta(hours=6),
+            "every_8_hours": timedelta(hours=8),
+            "every_other_day": timedelta(days=2),
+            "weekly": timedelta(weeks=1),
+        }
+
+        start_datetime = datetime.strptime(start_date, "%Y-%m-%d")
+        now = datetime.now()
+        interval = frequency_map.get(frequency, timedelta(days=1))
+
+        next_dose = start_datetime
+        while next_dose <= now:
+            next_dose += interval
+
+        medication["frequency"] = frequency
+        medication["start_date"] = start_date
+        medication["next_dose"] = next_dose.strftime("%Y-%m-%d %H:%M")
+
+        save_users(users)
+        flash("Medication updated successfully!", "success")
+        return redirect(url_for("track_medications"))
+
+    return render_template("edit_medication.html", medication=medication)
+    return render_template("edit_medication.html", medication=med_to_edit)
+
+@app.route('/report')
+def generate_report():
+    if "user" not in session:
+        return redirect(url_for("home"))
+
+    users = load_users()
+    user = users.get(session["user"])
+    medications = user.get("medications", [])
+
+    return render_template("report.html", user=user, medications=medications)
+
+@app.route('/download-report')
+def download_report():
+    if "user" not in session:
+        return redirect(url_for("home"))
+
+    users = load_users()
+    user = users.get(session["user"])
+    medications = user.get("medications", [])
+
+    response = make_response()
+    response.headers["Content-Type"] = "application/pdf"
+    response.headers["Content-Disposition"] = "attachment; filename=medication_report.pdf"
+
+    buffer = response.stream
+    doc = SimpleDocTemplate(buffer, pagesize=LETTER)
+    story = []
+    styles = getSampleStyleSheet()
+
+    # Title
+    story.append(Paragraph("Daily/Regular Medication List", styles["Title"]))
+    story.append(Paragraph(f"Patient name: {user['first_name']} {user['last_name']}", styles["Normal"]))
+    story.append(Spacer(1, 12))
+
+    # Header row
+    table_data = [["Date", "Medication Name", "Frequency", "Next Dose Time"]]
+
+    # Add user's actual medications
+    for med in medications:
+        table_data.append([
+            med["start_date"],
+            med["medication"],
+            med["frequency"],
+            med["next_dose"]
+        ])
+
+    # Add blank rows to match the form style
+    for _ in range(15 - len(medications)):
+        table_data.append(["", "", "", ""])
+
+    table = Table(table_data, colWidths=[90, 160, 120, 140])
+    table.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, 0), colors.whitesmoke),
+        ("TEXTCOLOR", (0, 0), (-1, 0), colors.black),
+        ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+        ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+        ("FONTSIZE", (0, 0), (-1, -1), 10),
+        ("GRID", (0, 0), (-1, -1), 0.5, colors.grey),
+        ("BOTTOMPADDING", (0, 0), (-1, 0), 10),
+        ("TOPPADDING", (0, 1), (-1, -1), 6),
+    ]))
+
+    story.append(table)
+    doc.build(story)
+    return response
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5006)

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medication Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        h1 {s
+            color: #0069d9;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            background: #e2f0d9;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        a.button, button {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-top: 20px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+
+        a.button:hover, button:hover {
+            background-color: #0056b3;
+        }
+
+        .disabled-btn {
+            background-color: gray !important;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <h1>Medication Report for {{ user.first_name }} {{ user.last_name }}</h1>
+
+    {% if medications %}
+        <ul>
+        {% for med in medications %}
+            <li>
+                <strong>Name:</strong> {{ med.medication }}<br>
+                <strong>Frequency:</strong> {{ med.frequency }}<br>
+                <strong>Start Date:</strong> {{ med.start_date }}<br>
+                <strong>Next Dose:</strong> {{ med.next_dose }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No medications found.</p>
+    {% endif %}
+
+    <!-- Placeholder for email button -->
+    <button class="disabled-btn" disabled>📧 Send to Healthcare Provider (Coming Soon)</button>
+
+    <br><br>
+    <a href="{{ url_for('download_report') }}" class="button">📄 Download Report as PDF</a>
+    <br><br>
+    <a href="{{ url_for('dashboard') }}" class="button">⬅ Back to Dashboard</a>
+</body>
+</html>

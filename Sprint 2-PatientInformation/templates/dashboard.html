@@ -71,7 +71,6 @@
             text-decoration: underline;
         }
 
-        /* New Generate Report Button Style */
         .generate-report-btn {
             background-color: #007bff;
             color: white;
@@ -108,11 +107,10 @@
                 <a href="{{ url_for('profile') }}">Edit Profile</a>
             </div>
 
-            <!-- New "Generate Report" button -->
             <div class="dashboard-card">
                 <h3>Generate Report</h3>
                 <p>Create a report of your medication history.</p>
-                <a href="#" class="generate-report-btn">Generate Report</a>
+                <a href="{{ url_for('generate_report') }}" class="generate-report-btn">Generate Report</a>
             </div>
         </div>
 

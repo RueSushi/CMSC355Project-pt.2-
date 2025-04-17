@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Medication</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f7fa;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        form label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        form input, form select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Edit {{ medication.medication }}</h2>
+        <form method="POST">
+            <label for="frequency">Frequency</label>
+            <select name="frequency" id="frequency" required>
+                <option value="once_a_day" {% if medication.frequency == 'once_a_day' %}selected{% endif %}>Once a day</option>
+                <option value="twice_a_day" {% if medication.frequency == 'twice_a_day' %}selected{% endif %}>Twice a day</option>
+                <option value="three_times_a_day" {% if medication.frequency == 'three_times_a_day' %}selected{% endif %}>Three times a day</option>
+                <option value="every_6_hours" {% if medication.frequency == 'every_6_hours' %}selected{% endif %}>Every 6 hours</option>
+                <option value="every_8_hours" {% if medication.frequency == 'every_8_hours' %}selected{% endif %}>Every 8 hours</option>
+                <option value="every_other_day" {% if medication.frequency == 'every_other_day' %}selected{% endif %}>Every other day</option>
+                <option value="weekly" {% if medication.frequency == 'weekly' %}selected{% endif %}>Weekly</option>
+            </select>
+
+            <label for="start_date">Start Date</label>
+            <input type="date" name="start_date" id="start_date" value="{{ medication.start_date }}" required>
+
+            <button type="submit" class="button">Update Medication</button>
+        </form>
+
+        <a href="{{ url_for('track_medications') }}" class="back-link">← Back to Medications</a>
+    </div>
+</body>
+</html>
