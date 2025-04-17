@@ -3,6 +3,10 @@ from datetime import datetime, timedelta
 import json
 import os
 import re
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.application import MIMEApplication
 from reportlab.lib.pagesizes import LETTER
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
 from reportlab.lib.styles import getSampleStyleSheet
@@ -23,6 +27,30 @@ def save_users(users):
     """Save the updated user data to the JSON file."""
     with open(USER_DB_FILE, "w") as file:
         json.dump(users, file, indent=4)
+
+def send_email_report(to_email, subject, body, attachment_bytes=None, attachment_filename="report.pdf"):
+    sender_email = "medireminder.notifications@gmail.com"
+    app_password = "dkrgfbnhiielfkkt"
+
+    msg = MIMEMultipart()
+    msg["From"] = sender_email
+    msg["To"] = to_email
+    msg["Subject"] = subject
+    msg.attach(MIMEText(body, "plain"))
+
+    if attachment_bytes:
+        part = MIMEApplication(attachment_bytes, _subtype="pdf")
+        part.add_header("Content-Disposition", "attachment", filename=attachment_filename)
+        msg.attach(part)
+
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(sender_email, app_password)
+            server.send_message(msg)
+        print("Email sent successfully!")
+    except Exception as e:
+        print("Error sending email:", str(e))
+
 
 def is_valid_email(email):
     """Check if the email format is valid."""
@@ -110,6 +138,8 @@ def profile():
         zip_code = request.form["zip_code"]
         city = request.form["city"]
         email = request.form["email"]
+        doctor_email = request.form["doctor_email"]
+
 
         user_data["email"] = email
         user_data["first_name"] = first_name
@@ -122,6 +152,8 @@ def profile():
         user_data["zip_code"] = zip_code
         user_data["city"] = city
         users[session["user"]] = user_data
+        user_data["doctor_email"] = doctor_email
+
 
         if email != current_email:
             if email in users:
@@ -208,6 +240,12 @@ def add_medication():
 
         current_user["medications"].append(new_medication)
         save_users(users)
+        send_email_report(
+            to_email=session["user"],
+            subject="Your Medication Was Added!",
+            body=f"Hi {current_user['first_name']},\n\nYou've added {medication_name} with frequency {frequency}.\n\nThanks for using our system!"
+        )
+
 
         flash(f"Medication '{medication_name}' added. Next dose: {new_medication['next_dose']}", "success")
         return redirect(url_for("track_medications"))
@@ -350,5 +388,72 @@ def download_report():
     doc.build(story)
     return response
 
+from io import BytesIO
+
+@app.route('/send-to-provider', methods=["POST"])
+def send_to_provider():
+    if "user" not in session:
+        return redirect(url_for("home"))
+
+    users = load_users()
+    user = users.get(session["user"])
+    medications = user.get("medications", [])
+
+    # Create PDF in memory
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=LETTER)
+    story = []
+    styles = getSampleStyleSheet()
+
+    story.append(Paragraph("Daily/Regular Medication List", styles["Title"]))
+    story.append(Paragraph(f"Patient name: {user['first_name']} {user['last_name']}", styles["Normal"]))
+    story.append(Spacer(1, 12))
+
+    table_data = [["Date", "Medication Name", "Frequency", "Next Dose Time"]]
+    for med in medications:
+        table_data.append([med["start_date"], med["medication"], med["frequency"], med["next_dose"]])
+    for _ in range(15 - len(medications)):
+        table_data.append(["", "", "", ""])
+
+    table = Table(table_data, colWidths=[90, 160, 120, 140])
+    table.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, 0), colors.whitesmoke),
+        ("GRID", (0, 0), (-1, -1), 0.5, colors.grey),
+        ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+    ]))
+    story.append(table)
+
+    doc.build(story)
+    pdf_bytes = buffer.getvalue()
+    buffer.close()
+
+    # Email
+    subject = f"Medication Report for {user['first_name']} {user['last_name']}"
+    body = f"""This is an automated medication report.
+
+Patient: {user['first_name']} {user['last_name']}
+Email: {session['user']}
+
+The medication report is attached as a PDF."""
+
+    provider_email = user.get("doctor_email")
+    if not provider_email:
+       flash("No doctor email found in profile. Please update it.", "danger")
+       return redirect(url_for("profile"))
+
+
+
+    send_email_report(
+        to_email=provider_email,
+        subject=subject,
+        body=body,
+        attachment_bytes=pdf_bytes
+    )
+
+    flash("Medication report with PDF sent to provider!", "success")
+    return redirect(url_for("generate_report"))
+
+
+
 if __name__ == "__main__":
-    app.run(debug=True, port=5006)
+    app.run(debug=True, port=5050)

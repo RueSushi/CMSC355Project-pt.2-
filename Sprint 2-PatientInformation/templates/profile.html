@@ -149,10 +149,18 @@
                 </div>
             </div>
 
+            <div class="form-row">
+                <div class="form-field">
+                    <label>Doctor's Email:</label>
+                    <input type="email" name="doctor_email" value="{{ user.get('doctor_email', '') }}" required>
+                </div>
+            </div>
+            
             <div class="button-row">
                 <button type="submit">Save Changes</button>
                 <a href="{{ url_for('dashboard') }}"><button type="button">Back to Dashboard</button></a>
             </div>
+            
         </form>
     </div>
 

@@ -10,7 +10,7 @@
             color: #333;
         }
 
-        h1 {s
+        h1 {
             color: #0069d9;
         }
 
@@ -27,7 +27,7 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        a.button, button {
+        .button, button {
             display: inline-block;
             background-color: #007bff;
             color: white;
@@ -40,17 +40,45 @@
             cursor: pointer;
         }
 
-        a.button:hover, button:hover {
+        .button:hover, button:hover {
             background-color: #0056b3;
         }
 
-        .disabled-btn {
-            background-color: gray !important;
-            cursor: not-allowed;
-        }
+        .flash-message {
+    padding: 12px 20px;
+    margin: 20px auto;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    width: fit-content;
+    max-width: 80%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.flash-message.success {
+    background-color: #d1f7c4;
+    color: #256029;
+    border: 1px solid #9fe6a0;
+}
+
+.flash-message.danger {
+    background-color: #ffd6d6;
+    color: #7f1d1d;
+    border: 1px solid #ffaaaa;
+}
+
     </style>
 </head>
 <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash-message {{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
     <h1>Medication Report for {{ user.first_name }} {{ user.last_name }}</h1>
 
     {% if medications %}
@@ -68,8 +96,10 @@
         <p>No medications found.</p>
     {% endif %}
 
-    <!-- Placeholder for email button -->
-    <button class="disabled-btn" disabled>📧 Send to Healthcare Provider (Coming Soon)</button>
+    <!-- Direct send to provider using saved profile email -->
+    <form action="{{ url_for('send_to_provider') }}" method="POST">
+        <button type="submit" class="button">📧 Send to Healthcare Provider</button>
+    </form>
 
     <br><br>
     <a href="{{ url_for('download_report') }}" class="button">📄 Download Report as PDF</a>

@@ -41,12 +41,19 @@
         "address": "9523 Bastille st",
         "dob": "2025-04-16",
         "zip_code": "22031",
-        "city": "Fairfax"
+        "city": "Fairfax",
+        "doctor_email": "poudeld@vcu.edu"
     },
     "poudeld@vcu.edu": {
         "first_name": "diwa",
         "last_name": "p",
         "password": "Diwashna123@",
+        "medications": []
+    },
+    "sanskriti.g28@gmail.com": {
+        "first_name": "Sanskriti",
+        "last_name": "Gyawali",
+        "password": "Sanskriti04@",
         "medications": []
     }
 }
