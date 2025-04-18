@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MediReminder</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            background: linear-gradient(to right, #fff0f5, #ffe6f0);
+            color: #333;
+        }
+
+        header {
+            background-color: #ffb6c1;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 40px;
+            color: white;
+        }
+
+        nav {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #c71585;
+            font-weight: bold;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .hero h2 {
+            font-size: 30px;
+            color: #c71585;
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .buttons a {
+            display: inline-block;
+            margin: 20px 10px;
+            padding: 14px 28px;
+            background-color: #ff69b4;
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+        }
+
+        section {
+            padding: 40px;
+            text-align: center;
+        }
+
+        footer {
+            background-color: #ffb6c1;
+            text-align: center;
+            padding: 20px;
+            color: white;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 800px;
+            margin: 30px auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>MediReminder 💊</h1>
+        <nav>
+            <a href="{{ url_for('home') }}">Login</a>
+            <a href="{{ url_for('register') }}">Sign Up</a>
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h2>The easiest way to stay on track with your medications</h2>
+        <p>Smart reminders, instant PDF reports, provider notifications, and a beautiful interface you’ll love using daily.</p>
+        <div class="buttons">
+            <a href="{{ url_for('home') }}">Get Started</a>
+        </div>
+    </div>
+
+    <section class="card">
+        <h2>Medication Facts & Warnings</h2>
+        <p>💡 Always take medications as prescribed by your healthcare provider.</p>
+        <p>⚠️ Never mix medications without consulting a doctor.</p>
+        <p>📆 Set reminders to avoid missed or double doses.</p>
+    </section>
+
+    <footer>
+        &copy; 2025 MediReminder | Helping you stay safe, healthy, and on time 💖
+    </footer>
+
+</body>
+</html>

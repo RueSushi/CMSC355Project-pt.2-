@@ -11,20 +11,19 @@ from reportlab.lib.pagesizes import LETTER
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib import colors
+from io import BytesIO
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
 USER_DB_FILE = "users.json"
 
 def load_users():
-    """Load the user data from the JSON file."""
     if os.path.exists(USER_DB_FILE):
         with open(USER_DB_FILE, "r") as file:
             return json.load(file)
     return {}
 
 def save_users(users):
-    """Save the updated user data to the JSON file."""
     with open(USER_DB_FILE, "w") as file:
         json.dump(users, file, indent=4)
 
@@ -51,19 +50,28 @@ def send_email_report(to_email, subject, body, attachment_bytes=None, attachment
     except Exception as e:
         print("Error sending email:", str(e))
 
-
 def is_valid_email(email):
-    """Check if the email format is valid."""
     email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
     return re.match(email_regex, email)
 
 def is_valid_password(password):
-    """Check if the password meets the criteria (at least 7 characters and 1 special character)."""
     return len(password) >= 7 and re.search(r'[!@#$%&()?:;]', password)
 
 @app.route('/')
+def landing_page():
+    return render_template("index.html")
+
+@app.route('/home')
 def home():
     return render_template("login.html")
+
+@app.route('/about')
+def about():
+    return render_template("about.html")
+
+@app.route('/contact')
+def contact():
+    return render_template("contact.html")
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
@@ -453,7 +461,24 @@ The medication report is attached as a PDF."""
     flash("Medication report with PDF sent to provider!", "success")
     return redirect(url_for("generate_report"))
 
+@app.route('/mark-taken/<int:index>', methods=["POST"])
+def mark_taken(index):
+    if "user" not in session:
+        return redirect(url_for("home"))
+
+    users = load_users()
+    user = users.get(session["user"])
+    meds = user.get("medications", [])
+
+    if 0 <= index < len(meds):
+        meds[index]["last_taken"] = datetime.now().strftime("%Y-%m-%d %H:%M")
+        save_users(users)
+        flash(f"Marked '{meds[index]['medication']}' as taken just now 💊", "success")
+    else:
+        flash("Medication not found.", "danger")
+
+    return redirect(url_for("track_medications"))
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5050)
+    app.run(debug=True, port=5020)

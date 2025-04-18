@@ -55,5 +55,32 @@
         "last_name": "Gyawali",
         "password": "Sanskriti04@",
         "medications": []
+    },
+    "jenanq@gmail.com": {
+        "first_name": "jj",
+        "last_name": "qasem",
+        "password": "testing123@",
+        "medications": [
+            {
+                "medication": "blahblah",
+                "frequency": "twice_a_day",
+                "start_date": "2025-04-17",
+                "next_dose": "2025-04-17 12:00"
+            },
+            {
+                "medication": "123",
+                "frequency": "three_times_a_day",
+                "start_date": "2025-04-17",
+                "next_dose": "2025-04-17 16:00"
+            }
+        ],
+        "email": "jenanq@gmail.com",
+        "pre_exist": "anything",
+        "phone": "80764343",
+        "address": "elmo street",
+        "dob": "2025-04-17",
+        "zip_code": "24455",
+        "city": "midlothian",
+        "doctor_email": "poudeld@vcu.edu"
     }
 }
