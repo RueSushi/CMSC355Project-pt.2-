@@ -88,6 +88,8 @@
                     <strong>{{ med.medication }}</strong><br>
                     Frequency: {{ med.frequency }}<br>
                     Start Date: {{ med.start_date }}<br>
+                    Dosage: {{ med.dosage}}<br>
+                    Notes: {{ med.notes}}<br>
                     Next Dose: <strong>{{ med.next_dose if med.next_dose is defined else "Not calculated" }}</strong><br><br>
 
                     <a href="{{ url_for('edit_medication', index=loop.index0) }}" class="button">Edit</a>

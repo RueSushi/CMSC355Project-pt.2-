@@ -214,7 +214,9 @@ def add_medication():
     if request.method == "POST":
         medication_name = request.form["medication"]
         frequency = request.form["frequency"]
+        dosage = request.form["dosage"]
         start_date = request.form["start_date"]
+        notes = request.form.get('notes', '')
         now = datetime.now()
 
         start_datetime = datetime.strptime(start_date, "%Y-%m-%d")
@@ -242,7 +244,9 @@ def add_medication():
         new_medication = {
             "medication": medication_name,
             "frequency": frequency,
+            "dosage": dosage,
             "start_date": start_date,
+            'notes': notes,
             "next_dose": next_dose.strftime("%Y-%m-%d %H:%M")
         }
 
@@ -298,6 +302,8 @@ def edit_medication(index):
 
     if request.method == "POST":
         frequency = request.form["frequency"]
+        dosage = request.form["dosage"]
+        notes = request.form.get('notes', '')
         start_date = request.form["start_date"]
 
         # Recalculate next dose
@@ -320,7 +326,9 @@ def edit_medication(index):
             next_dose += interval
 
         medication["frequency"] = frequency
+        medication["dosage"] = dosage
         medication["start_date"] = start_date
+        medication["notes"] = notes
         medication["next_dose"] = next_dose.strftime("%Y-%m-%d %H:%M")
 
         save_users(users)

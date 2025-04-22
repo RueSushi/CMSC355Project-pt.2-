@@ -82,5 +82,26 @@
         "zip_code": "24455",
         "city": "midlothian",
         "doctor_email": "poudeld@vcu.edu"
+    }, 
+    "testing@gmail.com": {
+        "first_name": "Alexia",
+        "last_name": "Jennings",
+        "password": "thisisatest!",
+        "medications": []
+    },
+    "testing2@gmail.com": {
+        "first_name": "Alexia ",
+        "last_name": "Jennings",
+        "password": "thisisatest!",
+        "medications": [
+            {
+                "medication": "Allergy Medicine",
+                "frequency": "once_a_day",
+                "dosage": "180 mg (1 pill)",
+                "start_date": "2025-04-21",
+                "notes": "take at 11 am!!!!! ",
+                "next_dose": "2025-04-23 00:00"
+            }
+        ]
     }
 }

@@ -75,8 +75,14 @@
                 <option value="weekly" {% if medication.frequency == 'weekly' %}selected{% endif %}>Weekly</option>
             </select>
 
+            <label for="dosage">Dosage</label>
+            <input type=""text" name="dosage" placeholder="Dosage" required>
+
             <label for="start_date">Start Date</label>
             <input type="date" name="start_date" id="start_date" value="{{ medication.start_date }}" required>
+
+            <label for="notes">Notes:</label>
+            <textarea name="notes" rows="4" cols="50" placeholder="Notes"></textarea
 
             <button type="submit" class="button">Update Medication</button>
         </form>
