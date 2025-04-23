@@ -7,67 +7,82 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f7fa;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #ffe6f0, #fff0f5);
             margin: 0;
             padding: 0;
+            color: #333;
         }
 
         .container {
-            max-width: 600px;
-            margin: 80px auto;
+            max-width: 700px;
+            margin: 60px auto;
             padding: 40px;
             background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            text-align: center;
+            border-radius: 16px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
         }
 
         h2 {
-            margin-bottom: 20px;
+            text-align: center;
+            color: #c71585;
+            margin-bottom: 30px;
         }
 
         ul {
-            text-align: left;
-            padding-left: 20px;
+            padding-left: 0;
+            list-style: none;
         }
 
         li {
+            background-color: #fff0f6;
             margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
         .button {
-            padding: 10px 18px;
+            padding: 10px 20px;
             font-size: 14px;
-            margin: 6px 6px 0 0;
+            margin: 5px 8px 0 0;
             color: white;
-            background-color: #007bff;
+            background-color: #ff69b4;
             border: none;
-            border-radius: 6px;
+            border-radius: 30px;
             text-decoration: none;
             cursor: pointer;
             display: inline-block;
+            font-weight: bold;
         }
 
         .button:hover {
-            background-color: #0069d9;
+            background-color: #ff3e94;
         }
 
         .delete-button {
-            background-color: #dc3545;
+            background-color: #ff6b81;
         }
 
         .delete-button:hover {
-            background-color: #c82333;
+            background-color: #e34a5d;
         }
 
         .success {
             color: green;
+            text-align: center;
         }
 
         .danger {
             color: red;
+            text-align: center;
         }
+
+        .action-buttons {
+            text-align: center;
+            margin-top: 30px;
+        }
+
     </style>
 </head>
 <body>
@@ -88,24 +103,27 @@
                     <strong>{{ med.medication }}</strong><br>
                     Frequency: {{ med.frequency }}<br>
                     Start Date: {{ med.start_date }}<br>
-                    Dosage: {{ med.dosage}}<br>
-                    Notes: {{ med.notes}}<br>
+                    Dosage: {{ med.dosage }}<br>
+                    Notes: {{ med.notes }}<br>
                     Next Dose: <strong>{{ med.next_dose if med.next_dose is defined else "Not calculated" }}</strong><br><br>
 
-                    <a href="{{ url_for('edit_medication', index=loop.index0) }}" class="button">Edit</a>
+                    <a href="{{ url_for('edit_medication', index=loop.index0) }}" class="button">✏️ Edit</a>
 
                     <form action="{{ url_for('delete_medication') }}" method="POST" style="display:inline;">
                         <input type="hidden" name="medication_name" value="{{ med.medication }}">
-                        <button type="submit" class="button delete-button">Delete</button>
+                        <button type="submit" class="button delete-button">🗑 Delete</button>
                     </form>
                 </li>
             {% else %}
-                <li>No medications added yet.</li>
+                <li style="text-align:center;">No medications added yet.</li>
             {% endfor %}
         </ul>
 
-        <a href="{{ url_for('add_medication') }}" class="button">Add Medication</a>
-        <a href="{{ url_for('dashboard') }}" class="button">Back to Dashboard</a>
+        <div class="action-buttons">
+            <a href="{{ url_for('add_medication') }}" class="button">➕ Add Medication</a>
+            <a href="{{ url_for('dashboard') }}" class="button">⬅ Back to Dashboard</a>
+        </div>
     </div>
 </body>
 </html>
+

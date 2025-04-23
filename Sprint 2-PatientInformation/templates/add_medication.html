@@ -4,27 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Medication</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f7fa;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #ffe6f0, #fff0f5);
             margin: 0;
             padding: 0;
+            color: #444;
         }
 
         .container {
-            max-width: 600px;
-            margin: 80px auto;
+            max-width: 620px;
+            margin: 60px auto;
             padding: 40px;
             background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
             text-align: center;
         }
 
         h2 {
-            margin-bottom: 20px;
+            color: #c71585;
+            margin-bottom: 24px;
         }
 
         form {
@@ -34,24 +35,37 @@
             gap: 16px;
         }
 
-        input, select, button {
+        input, select, textarea {
             padding: 12px;
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
+            border: 1px solid #f3c0d3;
+            border-radius: 8px;
         }
 
         button {
-            background-color: #007bff;
+            background-color: #ff69b4;
             color: white;
             border: none;
+            border-radius: 30px;
+            padding: 12px 24px;
+            font-size: 16px;
             cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            max-width: 420px;
         }
 
         button:hover {
-            background-color: #0069d9;
+            background-color: #ff3e94;
+        }
+
+        label {
+            align-self: flex-start;
+            font-weight: 600;
+            color: #c71585;
         }
 
         .success {
@@ -63,23 +77,28 @@
         }
 
         .nav-links {
-            margin-top: 20px;
+            margin-top: 25px;
         }
 
         .nav-links a {
             margin: 0 10px;
-            color: #555;
+            color: #c71585;
             text-decoration: none;
+            font-weight: 500;
         }
 
         .nav-links a:hover {
             text-decoration: underline;
         }
+
+        #custom-interval-container {
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Add a New Medication</h2>
+        <h2>➕ Add a New Medication</h2>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -104,10 +123,9 @@
                 <option value="custom">Custom interval</option>
             </select>
 
-            <label for="dosage">Dosage</label>
-            <input type=""text" name="dosage" placeholder="Dosage" required>
+            <input type="text" name="dosage" placeholder="Dosage" required>
 
-            <div id="custom-interval-container" style="display: none;">
+            <div id="custom-interval-container">
                 <input type="number" name="custom_interval_days" placeholder="Every X days" min="1">
             </div>
 
@@ -115,13 +133,13 @@
             <input type="date" name="start_date" required>
 
             <label for="notes">Notes:</label>
-            <textarea name="notes" rows="4" cols="50" placeholder="Notes"></textarea>
+            <textarea name="notes" rows="4" placeholder="Notes or special instructions..."></textarea>
 
-            <button type="submit">Add Medication</button>
+            <button type="submit">💾 Add Medication</button>
         </form>
 
         <div class="nav-links">
-            <a href="{{ url_for('track_medications') }}">Back to Medications</a> |
+            <a href="{{ url_for('track_medications') }}">← Back to Medications</a> |
             <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
         </div>
     </div>
@@ -131,11 +149,7 @@
         const customContainer = document.getElementById('custom-interval-container');
 
         frequencySelect.addEventListener('change', function () {
-            if (this.value === 'custom') {
-                customContainer.style.display = 'block';
-            } else {
-                customContainer.style.display = 'none';
-            }
+            customContainer.style.display = (this.value === 'custom') ? 'block' : 'none';
         });
     </script>
 </body>

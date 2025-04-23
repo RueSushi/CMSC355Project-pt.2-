@@ -6,88 +6,89 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <style>
-        .dashboard-wrapper {
-            max-width: 900px;
-            width: 100%;
-            background-color: white;
-            border-radius: 12px;
-            padding: 40px;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-        }
-
-        .dashboard-header {
-            font-size: 28px;
-            margin-bottom: 30px;
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            background: linear-gradient(to right, #ffe6f0, #fff0f5);
             color: #333;
         }
-
+    
+        .dashboard-wrapper {
+            max-width: 950px;
+            width: 100%;
+            background-color: #fff;
+            border-radius: 18px;
+            padding: 50px 40px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            margin: 50px auto;
+            text-align: center;
+        }
+    
+        .dashboard-header {
+            font-size: 32px;
+            margin-bottom: 40px;
+            color: #d63384;
+        }
+    
         .card-group {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 25px;
             flex-wrap: wrap;
-            margin-bottom: 5px;
         }
-
+    
         .dashboard-card {
-            background-color: #e6f4ea;
-            padding: 25px 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            text-align: center;
-            width: 200px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            background-color: #ffe4ec;
+            padding: 28px;
+            border-radius: 16px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+            width: 240px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
+    
         .dashboard-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+            transform: translateY(-6px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.12);
         }
-
+    
+        .dashboard-card h3 {
+            color: #c71585;
+            margin-bottom: 10px;
+        }
+    
+        .dashboard-card p {
+            color: #5a5a5a;
+            margin-bottom: 20px;
+        }
+    
         .dashboard-card a {
-            display: block;
+            display: inline-block;
             text-decoration: none;
-            background-color: #28a745;
+            background-color: #ff69b4;
             color: white;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 16px;
+            padding: 12px 22px;
+            border-radius: 30px;
             font-weight: bold;
             transition: background-color 0.3s ease;
         }
-
+    
         .dashboard-card a:hover {
-            background-color: #218838;
+            background-color: #ff3e94;
         }
-
+    
         .logout-link {
-            margin-top: 20px;
             display: inline-block;
-            color: #555;
+            margin-top: 30px;
+            font-size: 15px;
+            color: #777;
             text-decoration: none;
         }
-
+    
         .logout-link:hover {
             text-decoration: underline;
         }
-
-        .generate-report-btn {
-            background-color: #007bff;
-            color: white;
-            padding: 12px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            display: block;
-            margin-top: 20px;
-            text-align: center;
-            transition: background-color 0.3s ease;
-        }
-
-        .generate-report-btn:hover {
-            background-color: #0056b3;
-        }
     </style>
+    
 </head>
 
 <body>

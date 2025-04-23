@@ -3,25 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Login | MediReminder</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #ffe6f0, #fff0f5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            background-color: white;
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        h2 {
+            color: #c71585;
+            margin-bottom: 30px;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 8px;
+            border: 1px solid #f3c0d3;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ff3e94;
+        }
+
+        .flash-message {
+            margin-bottom: 15px;
+            color: red;
+            font-weight: bold;
+        }
+
+        a {
+            display: block;
+            margin-top: 20px;
+            color: #c71585;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h2>Medication Adherence System</h2>
+        <h2>MediReminder 💊</h2>
+
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                    <p class="{{ category }}">{{ message }}</p>
+                    <p class="flash-message">{{ message }}</p>
                 {% endfor %}
             {% endif %}
         {% endwith %}
+
         <form action="/login" method="post">
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Password" required>
             <button type="submit">Login</button>
         </form>
-        <a href="{{ url_for('register') }}">Create an Account</a>
+
+        <a href="{{ url_for('register') }}">➕ Create an Account</a>
     </div>
 </body>
 </html>
+
