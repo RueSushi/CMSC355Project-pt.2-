@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Medication Adherence Calendar</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            background: linear-gradient(to right, #fff6f9, #fdf0f5);
+            color: #333;
+        }
+        .dashboard-header {
+            background-color: #fde6ec;
+            padding: 25px;
+            text-align: center;
+            border-bottom: 3px solid #f9d8e2;
+        }
+        .dashboard-header h1 {
+            font-size: 32px;
+            margin: 0;
+            color: #a94461;
+        }
+        .calendar-container {
+            max-width: 900px;
+            margin: 40px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.08);
+        }
+        table.calendar {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        table.calendar th, table.calendar td {
+            border: 1px solid #f7cddb;
+            text-align: center;
+            padding: 15px;
+            height: 70px;
+        }
+        table.calendar th {
+            background-color: #fbe4ee;
+            color: #a94461;
+        }
+        .adherence-cell a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+        }
+        .taken { background-color: #e0f9e0; }       /* Greenish for ✅ */
+        .missed { background-color: #ffe5e5; }      /* Reddish for ❌ */
+        .future { background-color: #f9f9f9; }      /* Light gray */
+    </style>
+</head>
+<body>
+    <div class="dashboard-header">
+        <h1>Medication Adherence Calendar</h1>
+    </div>
+
+    <div class="calendar-container">
+        <table class="calendar">
+            <tr>
+                <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
+            </tr>
+            {% for week in calendar_weeks %}
+            <tr>
+                {% for day in week %}
+                {% set day_str = day.isoformat() %}
+                {% if day.month != calendar_weeks[2][3].month %}
+                    <td class="future"></td>
+                {% else %}
+                    {% set status = adherence_map.get(day_str) %}
+                    <td class="adherence-cell {{ 'taken' if status == True else 'missed' if status == False else 'future' }}">
+                        <a href="{{ url_for('view_day', date=day_str) }}">
+                            {{ day.day }}<br>
+                            {% if status == True %}✅{% elif status == False %}❌{% else %}—{% endif %}
+                        </a>
+                    </td>
+                {% endif %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <footer style="text-align:center; color:#aaa; margin-bottom:20px;">
+        &copy; 2025 MediReminder | Click a date to view or edit medication history 💖
+    </footer>
+</body>
+</html>

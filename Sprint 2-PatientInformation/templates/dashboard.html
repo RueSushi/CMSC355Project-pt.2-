@@ -113,6 +113,14 @@
                 <p>Create a report of your medication history.</p>
                 <a href="{{ url_for('generate_report') }}" class="generate-report-btn">Generate Report</a>
             </div>
+
+            <div class="dashboard-card">
+                <h3>View Calendar</h3>
+                <p>See your monthly schedule and checklist.</p>
+                <a href="{{ url_for('calendar_view') }}">View Calendar</a>
+
+            </div>
+            
         </div>
 
         <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>

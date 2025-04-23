@@ -32,7 +32,8 @@
                 "medication": "Advil",
                 "frequency": "once_a_day",
                 "start_date": "2025-04-17",
-                "next_dose": "2025-04-18 00:00"
+                "next_dose": "2025-04-18 00:00",
+                "last_taken": "2025-04-23 16:15"
             }
         ],
         "email": "diwashnapoudel2004@gmail.com",

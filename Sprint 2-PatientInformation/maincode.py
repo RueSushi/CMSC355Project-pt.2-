@@ -12,8 +12,59 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, Tabl
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib import colors
 from io import BytesIO
-
+from datetime import date, datetime, timedelta
+import calendar
+from flask import request
 app = Flask(__name__)
+
+@app.route('/calendar/<date>', methods=["GET", "POST"])
+def view_day(date):
+    if "user" not in session:
+        return redirect(url_for("home"))
+
+    users = load_users()
+    user = users.get(session["user"])
+
+    if "adherence" not in user:
+        user["adherence"] = {}
+
+    if request.method == "POST":
+        taken = request.form.getlist("taken")
+        meds_taken = [user["medications"][int(i)]["medication"] for i in taken]
+        user["adherence"][date] = meds_taken
+        save_users(users)
+        flash(f"Updated adherence for {date}.", "success")
+        return redirect(url_for("view_day", date=date))
+
+    meds = user.get("medications", [])
+    taken_today = user["adherence"].get(date, [])
+
+    return render_template("day_view.html", date=date, medications=meds, taken_today=taken_today)
+
+@app.route('/calendar')
+def calendar_view():
+    if "user" not in session:
+        return redirect(url_for("home"))
+
+    users = load_users()
+    current_user = users.get(session["user"])
+
+    today = date.today()
+    year = today.year
+    month = today.month
+
+    cal = calendar.Calendar()
+    month_days = cal.monthdatescalendar(year, month)
+
+    adherence_map = current_user.get("adherence", {})  # Should be a dict like {"2025-04-22": True, ...}
+
+    return render_template(
+        "calendar.html",
+        calendar_weeks=month_days,
+        adherence_map=adherence_map,
+        today_meds=current_user["medications"]
+    )
+
 app.secret_key = "your_secret_key"
 USER_DB_FILE = "users.json"
 
@@ -480,13 +531,21 @@ def mark_taken(index):
 
     if 0 <= index < len(meds):
         meds[index]["last_taken"] = datetime.now().strftime("%Y-%m-%d %H:%M")
+
+        # Update adherence for today's date
+        today_str = datetime.now().date().isoformat()
+        if "adherence" not in user:
+            user["adherence"] = {}
+        user["adherence"][today_str] = True
+
         save_users(users)
-        flash(f"Marked '{meds[index]['medication']}' as taken just now 💊", "success")
+        flash(f"Marked '{meds[index]['medication']}' as taken 💊", "success")
     else:
         flash("Medication not found.", "danger")
 
     return redirect(url_for("track_medications"))
 
 
+
 if __name__ == "__main__":
-    app.run(debug=True, port=5200)
+    app.run(debug=True, port=5800)
