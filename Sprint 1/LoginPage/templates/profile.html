@@ -1,100 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Meta tags for character encoding and responsive design -->
+    <!-- Character encoding for the document -->
     <meta charset="UTF-8">
+    <!-- Responsive viewport settings for mobile devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Title and stylesheet -->
+    <!-- Browser tab title -->
     <title>Update Profile</title>
+    <!-- Link to external CSS stylesheet using Flask's url_for() function -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-
 <body>
-
-    <!-- Flash messages for feedback (success or error) -->
+    <!-- Flask flash message handling section -->
+    <!-- This displays success or error messages from the backend -->
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% for category, message in messages %}
+        <!-- Message color is green for success, red for errors -->
         <p style="color: {{ 'green' if category == 'success' else 'red' }}">{{ message }}</p>
       {% endfor %}
     {% endwith %}
 
-    <!-- Form wrapper for horizontal scrolling if needed -->
+    <!-- Wrapper div that allows horizontal scrolling if the form is too wide -->
     <div class="form-scroll-wrapper">
-
-        <!-- Profile update form -->
+        <!-- Profile update form - uses POST method to send data to the server -->
         <form method="POST" class="centered-form">
+            <!-- Form title -->
             <h2 style="text-align: center;">Update Info</h2>
 
-            <!-- First Name -->
+            <!-- First Name input field -->
             <div class="form-field">
                 <label>First Name:</label>
+                <!-- Pre-populated with the user's current first name -->
                 <input type="text" name="first_name" value="{{ user.first_name }}" required>
             </div>
-
-            <!-- Last Name -->
+            
+            <!-- Last Name input field -->
             <div class="form-field">
                 <label>Last Name:</label>
                 <input type="text" name="last_name" value="{{ user.last_name }}" required>
             </div>
-
-            <!-- Email -->
+            
+            <!-- Email input field -->
             <div class="form-field">
                 <label>Email:</label>
+                <!-- Email type input provides basic email validation -->
                 <input type="email" name="email" value="{{ user.email }}" required>
             </div>
-
-            <!-- Password -->
+            
+            <!-- Password input field -->
             <div class="form-field">
                 <label>Password:</label>
+                <!-- Password type hides characters as dots -->
                 <input type="password" name="password" value="{{ user.password }}" required>
             </div>
-
-            <!-- Address -->
+            
+            <!-- Address input field -->
             <div class="form-field">
                 <label>Address:</label>
                 <input type="text" name="address" value="{{ user.address }}" required>
             </div>
-
-            <!-- City -->
+            
+            <!-- City input field -->
             <div class="form-field">
                 <label>City:</label>
                 <input type="text" name="city" value="{{ user.city }}" required>
             </div>
-
-            <!-- Zip Code -->
+            
+            <!-- Zip Code input field -->
             <div class="form-field">
                 <label>Zip Code:</label>
                 <input type="text" name="zip_code" value="{{ user.zip_code }}" required>
             </div>
-
-            <!-- Date of Birth -->
+            
+            <!-- Date of Birth input field -->
             <div class="form-field">
                 <label>Date of Birth:</label>
+                <!-- Date type input shows a date picker calendar -->
                 <input type="date" name="dob" value="{{ user.dob }}" required>
             </div>
-
-            <!-- Phone Number -->
+            
+            <!-- Phone Number input field -->
             <div class="form-field">
                 <label>Phone Number:</label>
                 <input type="text" name="phone" value="{{ user.phone }}" required>
             </div>
-
-            <!-- Pre-existing Conditions -->
+            
+            <!-- Pre-existing Conditions input field -->
             <div class="form-field">
                 <label>Pre-existing Conditions:</label>
-                <input type="text" name="pre_exist" value="{{ user.pre_exist }}" required>
+                <input type="text" name="pre_exist" value="{{ user.pre_exist}}" required>
             </div>
-
-            <!-- Submit button to save changes -->
+            
+            <!-- MISSING: Doctor's Email input field -->
+            <!-- This field is expected by the Flask route but is missing from the form -->
+            <div class="form-field">
+                <label>Doctor's Email:</label>
+                <input type="email" name="doctor_email" value="{{ user.doctor_email }}" required>
+            </div>
+            
+            <!-- Submit button to save form data -->
             <button type="submit">Save Changes</button>
-
-            <!-- Button link back to dashboard -->
+            
+            <!-- Back button that links to the dashboard -->
+            <!-- Uses Flask's url_for() to generate the correct URL -->
             <a href="{{ url_for('dashboard') }}">
+                <!-- Button is type="button" to prevent form submission -->
                 <button type="button">Back to Dashboard</button>
             </a>
         </form>
     </div>
-
 </body>
 </html>
