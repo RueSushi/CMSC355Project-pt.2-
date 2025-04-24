@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Page metadata and title -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+
+    <!-- Link to external CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
     <style>
+        /* Base styles for the whole page */
         body {
             font-family: Arial, sans-serif;
             background-color: #f5f7fa;
@@ -13,6 +18,7 @@
             padding: 0;
         }
 
+        /* Container for the dashboard content */
         .container {
             max-width: 500px;
             margin: 80px auto;
@@ -23,10 +29,12 @@
             text-align: center;
         }
 
+        /* Heading style */
         h2 {
             margin-bottom: 20px;
         }
 
+        /* Button styles for navigation */
         .button {
             display: inline-block;
             padding: 14px 28px;
@@ -41,10 +49,12 @@
             transition: background-color 0.3s ease;
         }
 
+        /* Button hover effect */
         .button:hover {
             background-color: #45a049;
         }
 
+        /* Logout link styles */
         .logout-link {
             display: block;
             margin-top: 20px;
@@ -52,6 +62,7 @@
             text-decoration: none;
         }
 
+        /* Logout hover effect */
         .logout-link:hover {
             text-decoration: underline;
         }
@@ -59,10 +70,16 @@
 </head>
 
 <body>
+    <!-- Main dashboard container -->
     <div class="container">
+        <!-- Personalized welcome message -->
         <h2>Welcome, {{ user.first_name }} {{ user.last_name }}!</h2>
+
+        <!-- Navigation buttons -->
         <a href="{{ url_for('medications') }}" class="button">Add and Track Medications</a>
         <a href="{{ url_for('profile') }}" class="button">Update Profile Info</a>
+
+        <!-- Logout link -->
         <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
     </div>
 </body>

@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Basic page setup -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Medication</title>
+
+    <!-- Internal styling for the Add Medication page -->
     <style>
+        /* Basic body styling with a soft gradient background */
         body {
             font-family: 'Segoe UI', sans-serif;
             background: linear-gradient(to right, #ffe6f0, #fff0f5);
@@ -13,6 +17,7 @@
             color: #444;
         }
 
+        /* Container for centering and styling the form */
         .container {
             max-width: 620px;
             margin: 60px auto;
@@ -23,11 +28,13 @@
             text-align: center;
         }
 
+        /* Header for form title */
         h2 {
             color: #c71585;
             margin-bottom: 24px;
         }
 
+        /* Form layout using flexbox */
         form {
             display: flex;
             flex-direction: column;
@@ -35,6 +42,7 @@
             gap: 16px;
         }
 
+        /* Input, select, and textarea styling */
         input, select, textarea {
             padding: 12px;
             width: 100%;
@@ -44,6 +52,7 @@
             border-radius: 8px;
         }
 
+        /* Submit button styling */
         button {
             background-color: #ff69b4;
             color: white;
@@ -58,16 +67,19 @@
             max-width: 420px;
         }
 
+        /* Button hover effect */
         button:hover {
             background-color: #ff3e94;
         }
 
+        /* Label styling */
         label {
             align-self: flex-start;
             font-weight: 600;
             color: #c71585;
         }
 
+        /* Flash message colors */
         .success {
             color: green;
         }
@@ -76,6 +88,7 @@
             color: red;
         }
 
+        /* Navigation links styling */
         .nav-links {
             margin-top: 25px;
         }
@@ -91,15 +104,18 @@
             text-decoration: underline;
         }
 
+        /* Hidden container for custom frequency input */
         #custom-interval-container {
             display: none;
         }
     </style>
 </head>
 <body>
+    <!-- Main form container -->
     <div class="container">
         <h2>➕ Add a New Medication</h2>
 
+        <!-- Flash message display logic -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -108,9 +124,12 @@
             {% endif %}
         {% endwith %}
 
+        <!-- Form to submit new medication details -->
         <form action="{{ url_for('add_medication') }}" method="post">
+            <!-- Medication name input -->
             <input type="text" name="medication" placeholder="Medication name" required>
 
+            <!-- Frequency dropdown selection -->
             <select name="frequency" required>
                 <option value="">Select frequency</option>
                 <option value="once_a_day">Once a day</option>
@@ -123,27 +142,34 @@
                 <option value="custom">Custom interval</option>
             </select>
 
+            <!-- Dosage input field -->
             <input type="text" name="dosage" placeholder="Dosage" required>
 
+            <!-- Custom interval input (hidden by default) -->
             <div id="custom-interval-container">
                 <input type="number" name="custom_interval_days" placeholder="Every X days" min="1">
             </div>
 
+            <!-- Start date input -->
             <label for="start_date">Start Date:</label>
             <input type="date" name="start_date" required>
 
+            <!-- Optional notes text area -->
             <label for="notes">Notes:</label>
             <textarea name="notes" rows="4" placeholder="Notes or special instructions..."></textarea>
 
+            <!-- Submit button -->
             <button type="submit">💾 Add Medication</button>
         </form>
 
+        <!-- Navigation links under the form -->
         <div class="nav-links">
             <a href="{{ url_for('track_medications') }}">← Back to Medications</a> |
             <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
         </div>
     </div>
 
+    <!-- Script to show custom interval input when 'custom' is selected -->
     <script>
         const frequencySelect = document.querySelector('select[name="frequency"]');
         const customContainer = document.getElementById('custom-interval-container');

@@ -1,46 +1,70 @@
+/* Set up base styles for the whole page */
 body {
     font-family: Arial, sans-serif;
-    display: flex;
+    display: flex; /* Center content horizontally */
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f4f4f4;
+    align-items: center; /* Center content vertically */
+    height: 100vh; /* Take full viewport height */
+    background-color: #f4f4f4; /* Light gray background */
 }
+
+/* Style for the main container box */
 .container {
-    background: white;
+    background: white; /* White background for contrast */
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
     text-align: center;
 }
+
+/* Input field styling */
 input {
     width: 95%;
     padding: 10px;
     margin: 10px 0;
 }
+
+/* Button styling */
 button {
-    background-color: #28a745;
+    background-color: #28a745; /* Green button */
     color: white;
     padding: 10px;
     border: none;
     cursor: pointer;
 }
+
+/* Change button color slightly on hover */
 button:hover {
     background-color: #218838;
 }
+
+/* Style for links */
 a {
     display: block;
     margin-top: 10px;
 }
-.success { color: green; }
-.danger { color: red; }
+
+/* Flash message styling for success messages */
+.success {
+    color: green;
+}
+
+/* Flash message styling for error messages */
+.danger {
+    color: red;
+}
+
+/* Make form elements horizontally scrollable on small screens */
 .form-scroll-wrapper {
     overflow-x: auto;
     white-space: nowrap;
     padding: 1rem;
 }
+
+/* Structure for form field blocks */
 .form-field {
     display: flex;
     flex-direction: column;
     min-width: 200px;
 }
+

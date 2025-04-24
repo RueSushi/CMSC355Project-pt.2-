@@ -1,26 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Basic metadata and page title -->
     <meta charset="UTF-8">
     <title>Medication Adherence Calendar</title>
+
+    <!-- Internal CSS for layout and design -->
     <style>
+        /* General body styling with soft background */
         body {
             font-family: 'Segoe UI', sans-serif;
             margin: 0;
             background: linear-gradient(to right, #fff6f9, #fdf0f5);
             color: #333;
         }
+
+        /* Header banner at the top of the calendar */
         .dashboard-header {
             background-color: #fde6ec;
             padding: 25px;
             text-align: center;
             border-bottom: 3px solid #f9d8e2;
         }
+
         .dashboard-header h1 {
             font-size: 32px;
             margin: 0;
             color: #a94461;
         }
+
+        /* Main calendar container styling */
         .calendar-container {
             max-width: 900px;
             margin: 40px auto;
@@ -29,52 +38,72 @@
             border-radius: 12px;
             box-shadow: 0 0 10px rgba(0,0,0,0.08);
         }
+
+        /* Table structure for the calendar */
         table.calendar {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 30px;
         }
+
+        /* Table cells and header styles */
         table.calendar th, table.calendar td {
             border: 1px solid #f7cddb;
             text-align: center;
             padding: 15px;
             height: 70px;
         }
+
         table.calendar th {
             background-color: #fbe4ee;
             color: #a94461;
         }
+
+        /* Link styling inside each calendar cell */
         .adherence-cell a {
             text-decoration: none;
             color: #333;
             display: block;
         }
-        .taken { background-color: #e0f9e0; }       /* Greenish for ✅ */
-        .missed { background-color: #ffe5e5; }      /* Reddish for ❌ */
-        .future { background-color: #f9f9f9; }      /* Light gray */
+
+        /* Background color based on medication status */
+        .taken { background-color: #e0f9e0; }   /* ✅ taken = greenish */
+        .missed { background-color: #ffe5e5; }  /* ❌ missed = red */
+        .future { background-color: #f9f9f9; }  /* Empty/future = gray */
     </style>
 </head>
+
 <body>
+    <!-- Page heading section -->
     <div class="dashboard-header">
         <h1>Medication Adherence Calendar</h1>
     </div>
 
+    <!-- Main calendar display section -->
     <div class="calendar-container">
         <table class="calendar">
+            <!-- Day headers -->
             <tr>
                 <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
             </tr>
+
+            <!-- Iterate over each week in the month -->
             {% for week in calendar_weeks %}
             <tr>
+                <!-- Iterate over each day in the week -->
                 {% for day in week %}
                 {% set day_str = day.isoformat() %}
+                
+                <!-- Skip cells that belong to other months -->
                 {% if day.month != calendar_weeks[2][3].month %}
                     <td class="future"></td>
                 {% else %}
                     {% set status = adherence_map.get(day_str) %}
+                    <!-- Apply class based on status and create a link to view details for the day -->
                     <td class="adherence-cell {{ 'taken' if status == True else 'missed' if status == False else 'future' }}">
                         <a href="{{ url_for('view_day', date=day_str) }}">
                             {{ day.day }}<br>
+                            <!-- Show icons for adherence -->
                             {% if status == True %}✅{% elif status == False %}❌{% else %}—{% endif %}
                         </a>
                     </td>
@@ -85,6 +114,7 @@
         </table>
     </div>
 
+    <!-- Page footer -->
     <footer style="text-align:center; color:#aaa; margin-bottom:20px;">
         &copy; 2025 MediReminder | Click a date to view or edit medication history 💖
     </footer>

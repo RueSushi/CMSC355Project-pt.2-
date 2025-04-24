@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <title>Register</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Styles for the registration page layout and design -->
     <style>
+        /* Base page styling */
         body {
             font-family: 'Segoe UI', sans-serif;
             background: linear-gradient(to right, #ffe6f0, #fff0f5);
@@ -12,6 +15,7 @@
             padding: 0;
         }
 
+        /* Container for the form content */
         .container {
             max-width: 500px;
             margin: 80px auto;
@@ -22,11 +26,13 @@
             text-align: center;
         }
 
+        /* Heading styling */
         h2 {
             color: #c71585;
             margin-bottom: 30px;
         }
 
+        /* Input field styles */
         input[type="text"],
         input[type="email"],
         input[type="password"] {
@@ -39,6 +45,7 @@
             background-color: #fff6fa;
         }
 
+        /* Submit button styling */
         button {
             background-color: #ff69b4;
             color: white;
@@ -51,10 +58,12 @@
             transition: background-color 0.3s ease;
         }
 
+        /* Hover effect for button */
         button:hover {
             background-color: #ff3e94;
         }
 
+        /* Link to go back to login */
         a {
             display: inline-block;
             margin-top: 20px;
@@ -66,6 +75,7 @@
             text-decoration: underline;
         }
 
+        /* Style for displaying flash messages */
         .flash-message {
             color: #d6336c;
             margin-bottom: 10px;
@@ -73,8 +83,12 @@
     </style>
 </head>
 <body>
+
+    <!-- Registration form container -->
     <div class="container">
         <h2>Create an Account</h2>
+
+        <!-- Display flash messages for success or errors -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -82,6 +96,8 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
+
+        <!-- Registration form -->
         <form action="/register" method="post">
             <input type="text" name="first_name" placeholder="First Name" required>
             <input type="text" name="last_name" placeholder="Last Name" required>
@@ -89,6 +105,8 @@
             <input type="password" name="password" placeholder="Password" required>
             <button type="submit">Register</button>
         </form>
+
+        <!-- Navigation link to return to login page -->
         <a href="{{ url_for('home') }}">← Back to Login</a>
     </div>
 </body>

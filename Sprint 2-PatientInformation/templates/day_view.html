@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Set character encoding -->
     <meta charset="UTF-8">
+    
+    <!-- Title of the page showing the selected date -->
     <title>Adherence for {{ date }}</title>
+    
+    <!-- Inline styles for layout and appearance -->
     <style>
+        /* Page body styling */
         body {
             font-family: 'Segoe UI', sans-serif;
             background-color: #fdf0f5;
@@ -11,6 +17,8 @@
             padding: 0;
             text-align: center;
         }
+
+        /* Container styling for the form */
         .container {
             max-width: 600px;
             margin: 50px auto;
@@ -19,17 +27,25 @@
             border-radius: 12px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
+
+        /* Heading style */
         h2 {
             color: #c06081;
         }
+
+        /* Style for medication checkbox labels */
         label {
             display: block;
             margin: 12px 0;
             font-size: 16px;
         }
+
+        /* Style for checkbox input */
         input[type="checkbox"] {
             margin-right: 10px;
         }
+
+        /* Style for submit button */
         .button {
             background-color: #e89ab5;
             color: white;
@@ -39,24 +55,38 @@
             margin-top: 20px;
             cursor: pointer;
         }
+
+        /* Hover effect for submit button */
         .button:hover {
             background-color: #d97da3;
         }
     </style>
 </head>
 <body>
+    <!-- Main container for the form -->
     <div class="container">
+        <!-- Display the date -->
         <h2>Medications Taken on {{ date }}</h2>
+
+        <!-- Form to submit which medications were taken on this day -->
         <form method="POST">
             {% for med in medications %}
+                <!-- Create a checkbox for each medication -->
                 <label>
+                    <!-- Mark checkbox as checked if it was taken today -->
                     <input type="checkbox" name="taken" value="{{ loop.index0 }}" {% if med.medication in taken_today %}checked{% endif %}>
                     {{ med.medication }}
                 </label>
             {% endfor %}
+
+            <!-- Submit button to save the adherence data -->
             <button type="submit" class="button">Save</button>
         </form>
-        <p style="margin-top: 20px;"><a href="{{ url_for('calendar') }}">← Back to Calendar</a></p>
+
+        <!-- Link to return to the main calendar view -->
+        <p style="margin-top: 20px;">
+            <a href="{{ url_for('calendar') }}">← Back to Calendar</a>
+        </p>
     </div>
 </body>
 </html>

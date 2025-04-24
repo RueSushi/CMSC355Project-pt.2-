@@ -1,66 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta tags for character encoding and responsive design -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Title of the page -->
     <title>Dashboard</title>
+
+    <!-- Linking to external stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+    <!-- Internal styling for the dashboard layout and components -->
     <style>
+        /* General body styling */
         body {
             font-family: 'Segoe UI', sans-serif;
             margin: 0;
             background: linear-gradient(to right, #ffe6f0, #fff0f5);
             color: #333;
         }
-    
+
+        /* Wrapper for the entire dashboard content */
         .dashboard-wrapper {
             max-width: 950px;
-            width: 100%;
+            margin: 50px auto;
+            padding: 50px 40px;
             background-color: #fff;
             border-radius: 18px;
-            padding: 50px 40px;
             box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-            margin: 50px auto;
             text-align: center;
         }
-    
+
+        /* Dashboard title */
         .dashboard-header {
             font-size: 32px;
             margin-bottom: 40px;
             color: #d63384;
         }
-    
+
+        /* Flex container for the cards */
         .card-group {
             display: flex;
             justify-content: center;
-            gap: 25px;
             flex-wrap: wrap;
+            gap: 25px;
         }
-    
+
+        /* Individual dashboard cards */
         .dashboard-card {
-            background-color: #ffe4ec;
+            width: 240px;
             padding: 28px;
+            background-color: #ffe4ec;
             border-radius: 16px;
             box-shadow: 0 4px 14px rgba(0,0,0,0.06);
-            width: 240px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-    
+
+        /* Hover effect for cards */
         .dashboard-card:hover {
             transform: translateY(-6px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.12);
         }
-    
+
+        /* Title inside the card */
         .dashboard-card h3 {
             color: #c71585;
             margin-bottom: 10px;
         }
-    
+
+        /* Card description text */
         .dashboard-card p {
             color: #5a5a5a;
             margin-bottom: 20px;
         }
-    
+
+        /* Button/link inside each card */
         .dashboard-card a {
             display: inline-block;
             text-decoration: none;
@@ -71,11 +86,13 @@
             font-weight: bold;
             transition: background-color 0.3s ease;
         }
-    
+
+        /* Hover effect for button */
         .dashboard-card a:hover {
             background-color: #ff3e94;
         }
-    
+
+        /* Logout link at the bottom */
         .logout-link {
             display: inline-block;
             margin-top: 30px;
@@ -83,47 +100,53 @@
             color: #777;
             text-decoration: none;
         }
-    
+
         .logout-link:hover {
             text-decoration: underline;
         }
     </style>
-    
 </head>
 
 <body>
+    <!-- Main container for the dashboard content -->
     <div class="dashboard-wrapper">
+        <!-- Welcome message using user's name -->
         <h2 class="dashboard-header">Welcome, {{ user.first_name }} {{ user.last_name }}!</h2>
 
+        <!-- Section containing feature cards -->
         <div class="card-group">
+            <!-- Medication tracker feature -->
             <div class="dashboard-card">
                 <h3>Track Medications</h3>
                 <p>Tracking dosage times and adding Medication.</p>
                 <a href="{{ url_for('track_medications') }}">Go to Tracker</a>
             </div>
 
+            <!-- Profile update feature -->
             <div class="dashboard-card">
                 <h3>Update Profile</h3>
                 <p>Keep your personal and health info up to date.</p>
                 <a href="{{ url_for('profile') }}">Edit Profile</a>
             </div>
 
+            <!-- Generate report feature -->
             <div class="dashboard-card">
                 <h3>Generate Report</h3>
                 <p>Create a report of your medication history.</p>
                 <a href="{{ url_for('generate_report') }}" class="generate-report-btn">Generate Report</a>
             </div>
 
+            <!-- View calendar feature -->
             <div class="dashboard-card">
                 <h3>View Calendar</h3>
                 <p>See your monthly schedule and checklist.</p>
                 <a href="{{ url_for('calendar_view') }}">View Calendar</a>
-
             </div>
-            
         </div>
 
+        <!-- Logout button -->
         <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
     </div>
 </body>
 </html>
+

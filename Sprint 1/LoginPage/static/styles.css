@@ -1,46 +1,64 @@
+/* Set up base font and center everything vertically and horizontally */
 body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f4f4f4;
+    font-family: Arial, sans-serif; /* Use Arial for clean look */
+    display: flex; /* Use flexbox to center the content */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100vh; /* Take full height of the viewport */
+    background-color: #f4f4f4; /* Light gray background */
 }
+
+/* Style the main container box */
 .container {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    background: white; /* White background for contrast */
+    padding: 20px; /* Inner spacing */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    text-align: center; /* Center text inside */
 }
+
+/* Style input fields */
 input {
-    width: 95%;
-    padding: 10px;
-    margin: 10px 0;
+    width: 95%; /* Almost full width */
+    padding: 10px; /* Padding inside input */
+    margin: 10px 0; /* Space above and below */
 }
+
+/* Style buttons */
 button {
-    background-color: #28a745;
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
+    background-color: #28a745; /* Bootstrap green */
+    color: white; /* White text */
+    padding: 10px; /* Padding inside button */
+    border: none; /* Remove default border */
+    cursor: pointer; /* Show pointer on hover */
 }
+
+/* Change button color on hover */
 button:hover {
-    background-color: #218838;
+    background-color: #218838; /* Darker green on hover */
 }
+
+/* Style links */
 a {
-    display: block;
-    margin-top: 10px;
+    display: block; /* Display as block so it takes full width */
+    margin-top: 10px; /* Space above */
 }
-.success { color: green; }
-.danger { color: red; }
+
+/* Flash message styles */
+.success { color: green; } /* Green text for success */
+.danger { color: red; } /* Red text for errors */
+
+/* Horizontal scroll wrapper for wide content */
 .form-scroll-wrapper {
-    overflow-x: auto;
-    white-space: nowrap;
-    padding: 1rem;
+    overflow-x: auto; /* Enable horizontal scrolling if needed */
+    white-space: nowrap; /* Keep children in one line */
+    padding: 1rem; /* Padding around */
 }
+
+/* Style individual form fields */
 .form-field {
-    display: flex;
-    flex-direction: column;
-    min-width: 200px;
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack label and input vertically */
+    min-width: 200px; /* Minimum width for responsiveness */
 }
+

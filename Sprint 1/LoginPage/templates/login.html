@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Metadata and page title -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+
+    <!-- Link to external stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
+    <!-- Main container for login form -->
     <div class="container">
+        <!-- Page heading -->
         <h2>Medication Adherence System</h2>
+
+        <!-- Display flash messages for success or error -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -16,11 +23,20 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
+
+        <!-- Login form -->
         <form action="/login" method="post">
+            <!-- Email input -->
             <input type="email" name="email" placeholder="Email" required>
+
+            <!-- Password input -->
             <input type="password" name="password" placeholder="Password" required>
+
+            <!-- Submit button -->
             <button type="submit">Login</button>
         </form>
+
+        <!-- Link to registration page -->
         <a href="{{ url_for('register') }}">Create an Account</a>
     </div>
 </body>

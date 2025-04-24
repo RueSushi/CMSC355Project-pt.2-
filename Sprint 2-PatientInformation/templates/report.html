@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Medication Report</title>
+
+    <!-- Styling for the medication report page -->
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -16,6 +18,7 @@
             margin-bottom: 30px;
         }
 
+        /* List styles for displaying medications */
         ul {
             list-style-type: none;
             padding-left: 0;
@@ -33,6 +36,7 @@
             color: #c71585;
         }
 
+        /* Button and link styles */
         .button, button {
             background-color: #ff69b4;
             color: white;
@@ -52,6 +56,7 @@
             background-color: #ff3e94;
         }
 
+        /* Flash message styling for success and error */
         .flash-message {
             padding: 12px 20px;
             margin: 20px auto;
@@ -83,6 +88,7 @@
 </head>
 <body>
 
+    <!-- Display flash messages if any -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
@@ -91,8 +97,10 @@
         {% endif %}
     {% endwith %}
 
+    <!-- Report header -->
     <h1>Medication Report for {{ user.first_name }} {{ user.last_name }}</h1>
 
+    <!-- Display list of medications if available -->
     {% if medications %}
         <ul>
             {% for med in medications %}
@@ -105,9 +113,11 @@
             {% endfor %}
         </ul>
     {% else %}
+        <!-- Message if no medications exist -->
         <p style="text-align:center;">No medications found.</p>
     {% endif %}
 
+    <!-- Action buttons for emailing and downloading the report -->
     <div class="actions">
         <form action="{{ url_for('send_to_provider') }}" method="POST" style="display:inline;">
             <button type="submit">📧 Send to Healthcare Provider</button>

@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Basic meta settings for character encoding and responsive design -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Title for the login page -->
     <title>Login | MediReminder</title>
+
+    <!-- Inline CSS styling for the login form layout and design -->
     <style>
+        /* Body styling to center the container with gradient background */
         body {
             font-family: 'Segoe UI', sans-serif;
             margin: 0;
@@ -17,6 +23,7 @@
             color: #333;
         }
 
+        /* Styling the main login form container */
         .container {
             background-color: white;
             padding: 40px 30px;
@@ -27,11 +34,13 @@
             text-align: center;
         }
 
+        /* Page heading */
         h2 {
             color: #c71585;
             margin-bottom: 30px;
         }
 
+        /* Input fields styling */
         input[type="email"],
         input[type="password"] {
             width: 100%;
@@ -42,6 +51,7 @@
             font-size: 16px;
         }
 
+        /* Login button styling */
         button {
             background-color: #ff69b4;
             color: white;
@@ -56,16 +66,19 @@
             transition: background-color 0.3s ease;
         }
 
+        /* Hover effect for login button */
         button:hover {
             background-color: #ff3e94;
         }
 
+        /* Styling for flash messages (errors or alerts) */
         .flash-message {
             margin-bottom: 15px;
             color: red;
             font-weight: bold;
         }
 
+        /* Link for account registration */
         a {
             display: block;
             margin-top: 20px;
@@ -74,15 +87,20 @@
             text-decoration: none;
         }
 
+        /* Hover effect for the link */
         a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
+
 <body>
+    <!-- Main content wrapper -->
     <div class="container">
+        <!-- App title -->
         <h2>MediReminder 💊</h2>
 
+        <!-- Display flashed messages from backend (e.g., errors) -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -91,14 +109,15 @@
             {% endif %}
         {% endwith %}
 
+        <!-- Login form with POST action -->
         <form action="/login" method="post">
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Password" required>
             <button type="submit">Login</button>
         </form>
 
+        <!-- Link to the registration page -->
         <a href="{{ url_for('register') }}">➕ Create an Account</a>
     </div>
 </body>
 </html>
-

@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Basic page setup and title -->
     <meta charset="UTF-8">
     <title>Edit Medication</title>
+
+    <!-- Internal styles for layout and aesthetics -->
     <style>
+        /* General body styling */
         body {
             font-family: 'Segoe UI', sans-serif;
             background: linear-gradient(to right, #ffe6f0, #fff0f5);
@@ -12,6 +16,7 @@
             color: #444;
         }
 
+        /* Centered container for form */
         .container {
             max-width: 550px;
             margin: 0 auto;
@@ -21,12 +26,14 @@
             box-shadow: 0 6px 18px rgba(0,0,0,0.1);
         }
 
+        /* Page title styling */
         h2 {
             text-align: center;
             color: #c71585;
             margin-bottom: 30px;
         }
 
+        /* Labels for inputs */
         label {
             font-weight: bold;
             color: #c71585;
@@ -35,6 +42,7 @@
             margin-bottom: 6px;
         }
 
+        /* Form input, dropdown, and textarea styling */
         input, select, textarea {
             width: 100%;
             padding: 12px;
@@ -44,6 +52,7 @@
             box-sizing: border-box;
         }
 
+        /* Save button styling */
         .button {
             margin-top: 30px;
             background-color: #ff69b4;
@@ -58,10 +67,12 @@
             width: 100%;
         }
 
+        /* Hover effect for save button */
         .button:hover {
             background-color: #ff3e94;
         }
 
+        /* Back link styling */
         .back-link {
             display: block;
             text-align: center;
@@ -71,15 +82,21 @@
             font-weight: bold;
         }
 
+        /* Hover effect for back link */
         .back-link:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
+    <!-- Main content container -->
     <div class="container">
+        <!-- Heading showing the name of medication being edited -->
         <h2>✏️ Edit {{ medication.medication }}</h2>
+
+        <!-- Form to update medication data -->
         <form method="POST">
+            <!-- Frequency dropdown with preselected value -->
             <label for="frequency">Frequency</label>
             <select name="frequency" id="frequency" required>
                 <option value="once_a_day" {% if medication.frequency == 'once_a_day' %}selected{% endif %}>Once a day</option>
@@ -91,18 +108,23 @@
                 <option value="weekly" {% if medication.frequency == 'weekly' %}selected{% endif %}>Weekly</option>
             </select>
 
+            <!-- Dosage input field -->
             <label for="dosage">Dosage</label>
             <input type="text" name="dosage" placeholder="Dosage" required>
 
+            <!-- Start date field pre-filled with existing value -->
             <label for="start_date">Start Date</label>
             <input type="date" name="start_date" id="start_date" value="{{ medication.start_date }}" required>
 
+            <!-- Notes input area, pre-filled if notes exist -->
             <label for="notes">Notes</label>
             <textarea name="notes" rows="4" placeholder="Notes or instructions...">{{ medication.notes }}</textarea>
 
+            <!-- Submit button -->
             <button type="submit" class="button">💾 Update Medication</button>
         </form>
 
+        <!-- Back link to medication tracking page -->
         <a href="{{ url_for('track_medications') }}" class="back-link">← Back to Medications</a>
     </div>
 </body>

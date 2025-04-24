@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Track Medications</title>
+
+    <!-- Link to external stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+    <!-- Inline styling for the medication tracker page -->
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -87,8 +91,10 @@
 </head>
 <body>
     <div class="container">
+        <!-- Page heading -->
         <h2>Your Medications</h2>
 
+        <!-- Display flash messages for success/error -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -97,6 +103,7 @@
             {% endif %}
         {% endwith %}
 
+        <!-- List all medications -->
         <ul>
             {% for med in medications %}
                 <li>
@@ -107,18 +114,22 @@
                     Notes: {{ med.notes }}<br>
                     Next Dose: <strong>{{ med.next_dose if med.next_dose is defined else "Not calculated" }}</strong><br><br>
 
+                    <!-- Link to edit medication -->
                     <a href="{{ url_for('edit_medication', index=loop.index0) }}" class="button">✏️ Edit</a>
 
+                    <!-- Form to delete medication -->
                     <form action="{{ url_for('delete_medication') }}" method="POST" style="display:inline;">
                         <input type="hidden" name="medication_name" value="{{ med.medication }}">
                         <button type="submit" class="button delete-button">🗑 Delete</button>
                     </form>
                 </li>
             {% else %}
+                <!-- Message when there are no medications -->
                 <li style="text-align:center;">No medications added yet.</li>
             {% endfor %}
         </ul>
 
+        <!-- Navigation buttons to add new medication or return to dashboard -->
         <div class="action-buttons">
             <a href="{{ url_for('add_medication') }}" class="button">➕ Add Medication</a>
             <a href="{{ url_for('dashboard') }}" class="button">⬅ Back to Dashboard</a>
@@ -126,4 +137,3 @@
     </div>
 </body>
 </html>
-
