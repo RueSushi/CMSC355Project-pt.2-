@@ -1,0 +1,22 @@
+{
+    "testemail@gmail.com": {
+        "first_name": "Alexia",
+        "last_name": "Jennings",
+        "password": "thisisates!",
+        "medications": [
+            {
+                "medication": "sudafed",
+                "frequency": "twice_a_day",
+                "dosage": "1 pill",
+                "start_date": "2025-04-25",
+                "notes": "",
+                "taken": false,
+                "next_dose": "2025-04-26 00:00",
+                "last_taken": "2025-04-25 14:17"
+            }
+        ],
+        "adherence": {
+            "2025-04-25": true
+        }
+    }
+}

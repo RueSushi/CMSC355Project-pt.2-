@@ -323,6 +323,7 @@ def add_medication():
         start_date = request.form["start_date"]
         notes = request.form.get('notes', '')
         now = datetime.now()
+        taken = False
 
         # Parse start date
         start_datetime = datetime.strptime(start_date, "%Y-%m-%d")
@@ -357,6 +358,7 @@ def add_medication():
             "dosage": dosage,
             "start_date": start_date,
             'notes': notes,
+            "taken": False,
             "next_dose": next_dose.strftime("%Y-%m-%d %H:%M")
         }
 
@@ -629,6 +631,7 @@ def mark_taken(index):
 
         # Update adherence record for today
         today_str = datetime.now().date().isoformat()
+        taken = True
         if "adherence" not in user:
             user["adherence"] = {}
         user["adherence"][today_str] = True

@@ -129,6 +129,23 @@
             {% endfor %}
         </ul>
 
+        <!-- Tracking medication if not already taken-->
+        <ul>
+            {% for med in medications %}
+              <li>
+                <strong>{{ med.medication }}</strong> ({{ med.dosage }})<br>
+                Next dose: {{ med.next_dose }}<br>
+                {% if not med.taken %}
+                  <form action="{{ url_for('mark_taken', index=loop.index0) }}" method="post" style="display:inline;">
+                    <button type="submit">Mark as Taken</button>
+                  </form>
+                {% else %}
+                  ✅ Taken at {{ med.last_taken }}
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+
         <!-- Navigation buttons to add new medication or return to dashboard -->
         <div class="action-buttons">
             <a href="{{ url_for('add_medication') }}" class="button">➕ Add Medication</a>
