@@ -36,9 +36,11 @@ def view_day(date):
 
     # Handle POST request to update medication adherence for this day
     if request.method == "POST":
-        taken = request.form.getlist("taken")  # Get list of medication indices that were taken
-        meds_taken = [user["medications"][int(i)]["medication"] for i in taken]  # Get medication names
-        user["adherence"][date] = meds_taken  # Store which medications were taken on this date
+        taken = request.form.getlist("taken")
+        if taken:
+            user["adherence"][date] = True  # If any med is marked, store True
+        else:
+            user["adherence"][date] = False  # If nothing marked, store False
         save_users(users)  # Save the updated user data
         flash(f"Updated adherence for {date}.", "success")
         return redirect(url_for("view_day", date=date))
@@ -646,4 +648,4 @@ def mark_taken(index):
 
 # Run the application if this script is executed directly
 if __name__ == "__main__":
-    app.run(debug=True, port=5900)
+    app.run(debug=True, port=5600)

@@ -102,12 +102,14 @@
 
         <!-- Display flashed messages from backend (e.g., errors) -->
         {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <p class="flash-message">{{ message }}</p>
-                {% endfor %}
+    {% if messages %}
+        {% for category, message in messages %}
+            {% if category == "danger" %}
+                <p class="flash-message">{{ message }}</p>
             {% endif %}
-        {% endwith %}
+        {% endfor %}
+    {% endif %}
+{% endwith %}
 
         <!-- Login form with POST action -->
         <form action="/login" method="post">

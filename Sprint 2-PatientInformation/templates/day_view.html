@@ -74,7 +74,8 @@
                 <!-- Create a checkbox for each medication -->
                 <label>
                     <!-- Mark checkbox as checked if it was taken today -->
-                    <input type="checkbox" name="taken" value="{{ loop.index0 }}" {% if med.medication in taken_today %}checked{% endif %}>
+                    <input type="checkbox" name="taken" value="{{ loop.index0 }}" {% if taken_today is iterable and med.medication in taken_today %}checked{% endif %}>
+
                     {{ med.medication }}
                 </label>
             {% endfor %}
