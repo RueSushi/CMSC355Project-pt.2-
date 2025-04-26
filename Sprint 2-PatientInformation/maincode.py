@@ -646,4 +646,4 @@ def mark_taken(index):
 
 # Run the application if this script is executed directly
 if __name__ == "__main__":
-    app.run(debug=True, port=5800)
+    app.run(debug=True, port=5900)
